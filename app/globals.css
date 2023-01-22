@@ -2,25 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
+*{
   box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+  /* padding: 0;
+  margin: 0;*/
 }
 
 html,
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
+ 
+ 
+ scroll-behavior: smooth;
+  background-color: #05112d;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+   overflow-x:auto;
+  
 }
 
+@keyframes spinner {
+  0%{
+    rotate: 0deg;
+  }
+  100%{
+    rotate:360deg;
+  }
+}
