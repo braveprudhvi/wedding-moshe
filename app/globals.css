@@ -2,12 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: Alex;
+  src: url("../public/AlexBrush-Regular.ttf");
+}
+@font-face {
+  font-family: Alata;
+  src: url("../public/Alata-Regular.ttf");
+}
 *{
   box-sizing: border-box;
   /* padding: 0;
   margin: 0;*/
 }
-
+html{
+  height: -webkit-fill-available;
+}
 html,
 body {
  
@@ -15,17 +25,119 @@ body {
  scroll-behavior: smooth;
   background-color: #05112d;
 }
-
+.alex{
+  font-family: Alex;
+  word-spacing: 0.1vmin;
+}
+.alata{
+  font-family: Alata;
+  letter-spacing: 0.3vmin;
+}
 body {
    overflow-x:auto;
-  
+  min-height: -webkit-fill-available;
 }
-
-@keyframes spinner {
+.snaps{
+  scroll-behavior: smooth;
+    scroll-snap-type: y mandatory;
+}
+.scrolls{
+  scroll-snap-align: start;
+}
+.prasanth{
+  animation: pra 2s 3.5s ease-in-out,delay 7s;
+}
+.archana{
+  animation: arc 2s 3.5s ease-in-out,delay 7s;
+}
+.shadow{
+  box-shadow: 0px 0px 2vmin 2vmin rgba(0, 0, 0, 0.802);
+  animation: board 1s 2.5s,delay 5s;
+}
+.fadein{
+  animation: fade 1s 5.5s,delay 11s;
+}
+@keyframes fade {
   0%{
-    rotate: 0deg;
+    opacity: 0;
   }
   100%{
-    rotate:360deg;
+    opacity: 1;
+  }
+}
+@keyframes spinner {
+  0%{
+    -webkit-transform:rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100%{
+    -webkit-transform:rotate(360deg);
+    transform:rotate(360deg);
+  }
+}
+@keyframes board {
+  0%{
+    -webkit-transform:scale(0.4);
+    transform: scale(0.4);
+  }
+  100%{
+    -webkit-transform:scale(1);
+    transform:scale(1);
+  }
+}
+@keyframes pra {
+  0%{
+    -webkit-transform:translateX(-100vmin);
+    transform: translateX(-100vmin);
+  }
+  80%{
+    -webkit-transform:translateX(10vmin);
+    transform: translateX(10vmin);
+  }
+  100%{
+    -webkit-transform:translateX(0vmin);
+    transform: translateX(0vmin);
+  }
+}
+@keyframes arc {
+  0%{
+    -webkit-transform:translateX(100vmin);
+    transform: translateX(100vmin);
+  }
+  80%{
+    -webkit-transform:translateX(-10vmin);
+    transform: translateX(-10vmin);
+  }
+  100%{
+    -webkit-transform:translateX(0vmin);
+    transform: translateX(0vmin);
+  }
+}
+@keyframes delay {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes mayam {
+  0%{
+    opacity: 0;
+  }
+  50%{
+    opacity: 0;
+  }
+  90%{
+    opacity: 0.6;
+  }
+  100%{
+   opacity: 1;
   }
 }
