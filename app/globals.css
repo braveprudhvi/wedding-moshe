@@ -44,15 +44,11 @@ body {
 .scrolls{
   scroll-snap-align: start;
 }
-.prasanth{
-  animation: pra 2s 3.5s ease-in-out,delay 7s;
-}
-.archana{
-  animation: arc 2s 3.5s ease-in-out,delay 7s;
-}
+
+
 .shadow{
   box-shadow: 0px 0px 2vmin 2vmin rgba(0, 0, 0, 0.802);
-  animation: board 1s 2.5s,delay 5s;
+  
 }
 .fadein{
   animation: fade 1s 5.5s,delay 11s;
@@ -90,6 +86,7 @@ body {
     -webkit-transform:translateX(-100vmin);
     transform: translateX(-100vmin);
   }
+
   80%{
     -webkit-transform:translateX(10vmin);
     transform: translateX(10vmin);
@@ -104,6 +101,7 @@ body {
     -webkit-transform:translateX(100vmin);
     transform: translateX(100vmin);
   }
+
   80%{
     -webkit-transform:translateX(-10vmin);
     transform: translateX(-10vmin);
@@ -130,12 +128,6 @@ body {
 @keyframes mayam {
   0%{
     opacity: 0;
-  }
-  50%{
-    opacity: 0;
-  }
-  90%{
-    opacity: 0.6;
   }
   100%{
    opacity: 1;
