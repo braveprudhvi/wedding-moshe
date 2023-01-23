@@ -7,7 +7,7 @@ export default function Home(props) {
     <div className="h-full relative w-[100vw] overflow-hidden antialiased scrolls">
       <svg
         style={
-          props.seconds > 3
+          props.seconds > 2 || props.minutes > 0
             ? {
                 animation: "spinner 35s linear infinite",
                 WebkitAnimation: "spinner 35s linear infinite",
@@ -28,7 +28,7 @@ export default function Home(props) {
         // data-darkreader-inline-fill=""
       >
         <g id="__id8_s65o28xwnq">
-          {props.seconds > 2 ? (
+          {props.seconds > 1 || props.minutes > 0 ? (
             <>
               <path
                 style={{ animation: "mayam 1s" }}
@@ -557,7 +557,7 @@ export default function Home(props) {
             data-darkreader-inline-fill=""
           ></motion.path>
 
-          {props.seconds > 2 ? (
+          {props.seconds > 1 || props.minutes > 0 ? (
             <>
               <path
                 style={{ animation: "mayam 1s" }}
@@ -684,7 +684,7 @@ export default function Home(props) {
             fill="inherit"
             data-darkreader-inline-fill=""
           ></motion.path>
-          {props.seconds > 2 ? (
+          {props.seconds > 1 || props.minutes > 0 ? (
             <>
               <path
                 style={{ animation: "mayam 1s" }}
@@ -2687,18 +2687,26 @@ export default function Home(props) {
         </g>
       </svg>
       <div
-        style={props.seconds > 0 ? { animation: "board 1s" } : { opacity: 0 }}
+        style={
+          props.seconds > 0 || props.minutes > 0
+            ? { animation: "board 0.5s" }
+            : { opacity: 0 }
+        }
         className="shadow z-20 h-[23vh] w-screen absolute top-[35%] overflow-hidden bg-[#05112d] flex flex-col pt-[2vh] gap-[1.5vh]"
       >
         <h2
           className=" alata w-full text-[4vmin] text-[#ffd3a2] text-center"
-          style={props.seconds > 2 ? { animation: "fade 1s" } : { opacity: 0 }}
+          style={
+            props.seconds > 1 || props.minutes > 0
+              ? { animation: "fade 1s" }
+              : { opacity: 0 }
+          }
         >
           SAVE THE DATE
         </h2>
 
         <div className="alex w-full text-[12vmin] text-[#ffd3a2] text-center flex">
-          {props.seconds > 1 ? (
+          {props.seconds > 0 || props.minutes > 0 ? (
             <h1 className="prasanth" style={{ animation: "pra 1.2s" }}>
               Prasanth
             </h1>
@@ -2708,12 +2716,14 @@ export default function Home(props) {
           <h1
             className=" ml-[4vmin] mr-[3vmin]"
             style={
-              props.seconds > 2 ? { animation: "fade 1s" } : { opacity: 0 }
+              props.seconds > 1 || props.minutes > 0
+                ? { animation: "fade 1s" }
+                : { opacity: 0 }
             }
           >
             &
           </h1>
-          {props.seconds > 1 ? (
+          {props.seconds > 0 || props.minutes > 0 ? (
             <h1 className="archana" style={{ animation: "arc 1.2s " }}>
               Archana
             </h1>
@@ -2723,7 +2733,11 @@ export default function Home(props) {
         </div>
         <h2
           className="alata w-full text-[4vmin] text-[#ffd3a2] text-center"
-          style={props.seconds > 2 ? { animation: "fade 1s" } : { opacity: 0 }}
+          style={
+            props.seconds > 1 || props.minutes > 0
+              ? { animation: "fade 1s" }
+              : { opacity: 0 }
+          }
         >
           22.02.2023 RECEPTION
         </h2>
