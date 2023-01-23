@@ -129,6 +129,36 @@ img {
     transform:scale(1);
   }
 }
+@keyframes arch {
+  0%{
+    -webkit-transform:translateY(100vmin);
+    transform: translateY(100vmin);
+  }
+
+  80%{
+    -webkit-transform:translateY(-8vmin);
+    transform: translateY(-8vmin);
+  }
+  100%{
+    -webkit-transform:translateY(0vmin);
+    transform: translateY(0vmin);
+  }
+}
+@keyframes pru {
+  0%{
+    -webkit-transform:translateY(-100vmin);
+    transform: translateY(-100vmin);
+  }
+
+  80%{
+    -webkit-transform:translateY(8vmin);
+    transform: translateY(8vmin);
+  }
+  100%{
+    -webkit-transform:translateY(0vmin);
+    transform: translateY(0vmin);
+  }
+}
 @keyframes pra {
   0%{
     -webkit-transform:translateX(-100vmin);
