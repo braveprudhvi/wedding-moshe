@@ -1,5 +1,5 @@
 "use client";
-
+import ICS from '../public/Calender.ics'
 import { useInView } from "react-intersection-observer";
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
@@ -19,12 +19,11 @@ export default function Home() {
   const today = Date.now();
   const router = usePathname();
   const [s, setS] = useState(0);
+  const [ani, setAni] = useState({});
   const { ref, inView } = useInView({
     threshold: 0,
   });
   useEffect(() => {
-    console.log(diff, mDate);
-    console.log("hello1");
     if (inView) {
       start();
       setS((i) => i + 1);
@@ -36,13 +35,16 @@ export default function Home() {
   return (
     <div className="h-full relative w-[100vw] overflow-hidden antialiased scrolls">
       <svg
+        onAnimationEnd={() => {
+          console.log("ani ended");
+        }}
         style={
           (minutes > 0 && inView) || (seconds > 1 && inView)
             ? {
                 animation: "spinner 35s linear infinite",
                 WebkitAnimation: "spinner 35s linear infinite",
               }
-            : {}
+            : { animation: "fade 1s" }
         }
         className=" z-[20] w-[120vw] absolute overflow-hidden bottom-[20vh] left-[-10vw]"
         xmlns="http://www.w3.org/2000/svg"
@@ -70,6 +72,7 @@ export default function Home() {
         </g>
       </svg>
       <svg
+        ref={ref}
         style={
           (minutes > 0 && inView) || (seconds > 1 && inView)
             ? {
@@ -1074,16 +1077,17 @@ export default function Home() {
         </g>
       </svg>
       <div
-        style={s ? { animation: "open 1s" } : { opacity: 0 }}
-        className="shadow z-20 h-full absolute w-[75vw] overflow-hidden bg-[#05112d] left-[12vw] flex flex-col pr-[0.8vmin] pl-[0.8vmin] pt-[5vh] gap-[7vh]"
+        onAnimationEnd={() => {
+          setAni((i) => {
+            return { ...i, container: 1 };
+          });
+        }}
+        style={s ? { animation: "open 0.7s" } : { opacity: 0 }}
+        className="shadow z-20 h-full absolute w-[75vw] overflow-hidden bg-[#05112d] left-[12vw] flex flex-col pr-[0.8vmin] pl-[0.8vmin] pt-[5vh] gap-[5vh]"
       >
         <div
           className=" alata w-full text-[5vmin] text-[#fbb86b] text-center"
-          style={
-            minutes > 0 || seconds > 1
-              ? { animation: "fade 1s" }
-              : { opacity: 0 }
-          }
+          style={ani.container ? { animation: "fade 1s" } : { opacity: 0 }}
         >
           <h1>COUNTDOWN</h1>
           <div className="flex text-[9vmin] gap-[4vw] align-middle text-[#ffd3a2] justify-center">
@@ -1112,15 +1116,105 @@ export default function Home() {
               <h2 className="text-[3.5vmin]">Seconds</h2>
             </div>
           </div>
+          <div className="flex text-[3.6vmin] mt-[3vh] text-[#ffd3a2]">
+            <div
+              onClick={() =>
+                window.open(
+                  "https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=NjhkMjhoZmRmNXB2aDE0cGsydm5qdTIyMTggYm9qYW5hcHVzYWlwcmFzYW50aDk4MUBt&tmsrc=bojanapusaiprasanth981%40gmail.com",
+                  "_self"
+                )
+              }
+              onTouchCancel={() =>
+                window.open(
+                  "https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=NjhkMjhoZmRmNXB2aDE0cGsydm5qdTIyMTggYm9qYW5hcHVzYWlwcmFzYW50aDk4MUBt&tmsrc=bojanapusaiprasanth981%40gmail.com",
+                  "_self"
+                )
+              }
+              className="flex flex-col justify-center align-middle"
+            >
+              <svg
+                className="w-[20vw] h-[4vh] ml-[7vw]"
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                data-name="Layer 1"
+                viewBox="0 0 32 32"
+              >
+                <path
+                  fill="#ffd3a2"
+                  d="M22,4.5v6H10v11H4V6.5a2.0059,2.0059,0,0,1,2-2Z"
+                />
+                <polygon
+                  fill="#ffd3a2"
+                  points="22 27.5 22 21.5 28 21.5 22 27.5"
+                />
+                <rect width="6" height="12" x="22" y="9.5" fill="#ffd3a2" />
+                <rect
+                  width="6"
+                  height="12"
+                  x="13"
+                  y="18.5"
+                  fill="#ffd3a2"
+                  transform="rotate(90 16 24.5)"
+                />
+                <path
+                  fill="#ffd3a2"
+                  d="M28,6.5v4H22v-6h4A2.0059,2.0059,0,0,1,28,6.5Z"
+                />
+                <path
+                  fill="#ffd3a2"
+                  d="M10,21.5v6H6a2.0059,2.0059,0,0,1-2-2v-4Z"
+                />
+                <path
+                  fill="#ffd3a2"
+                  d="M15.69,17.09c0,.89-.66,1.79-2.15,1.79a3.0026,3.0026,0,0,1-1.52-.39l-.08-.06.29-.82.13.08a2.3554,2.3554,0,0,0,1.17.34,1.191,1.191,0,0,0,.88-.31.8586.8586,0,0,0,.25-.65c-.01-.73-.68-.99-1.31-.99h-.54v-.81h.54c.45,0,1.12-.22,1.12-.82,0-.45-.31-.71-.85-.71a1.8865,1.8865,0,0,0-1.04.34l-.14.1-.28-.79.07-.06a2.834,2.834,0,0,1,1.53-.45c1.19,0,1.72.73,1.72,1.45a1.4369,1.4369,0,0,1-.81,1.3A1.52,1.52,0,0,1,15.69,17.09Z"
+                />
+                <polygon
+                  fill="#ffd3a2"
+                  points="18.71 12.98 18.71 18.79 17.73 18.79 17.73 14 16.79 14.51 16.58 13.69 17.95 12.98 18.71 12.98"
+                />
+              </svg>
+              <h1>Add to Google Calender</h1>
+            </div>
+            <div
+              onClick={() =>
+                window.open(
+                  "data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ADTSTART:20230222T150000Z%0ADTEND:20230223T030000Z%0ASUMMARY:Prasanth%20Weds%20Archana%0ADESCRIPTION:We%20are%20Inviting%20you%20to%20Celebrate%20their%20Wedding%20with%20Joy%20and%20Happiness.%0ALOCATION:AVADHOOTHA%20DATTA%20PEETHAM%2C%20M9Q4%2BP4J%2C%20Ghogarbha%20Teertham%20Rd%2C%20Tirumala%2C%20Tirupati%2C%20Andhra%20Pradesh%20517504%2C%20India%0AEND:VEVENT%0AEND:VCALENDAR%0A",
+                  "_self"
+                )
+              }
+              onTouchCancel={() =>
+                window.open(
+                  "data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ADTSTART:20230222T150000Z%0ADTEND:20230223T030000Z%0ASUMMARY:Prasanth%20Weds%20Archana%0ADESCRIPTION:We%20are%20Inviting%20you%20to%20Celebrate%20their%20Wedding%20with%20Joy%20and%20Happiness.%0ALOCATION:AVADHOOTHA%20DATTA%20PEETHAM%2C%20M9Q4%2BP4J%2C%20Ghogarbha%20Teertham%20Rd%2C%20Tirumala%2C%20Tirupati%2C%20Andhra%20Pradesh%20517504%2C%20India%0AEND:VEVENT%0AEND:VCALENDAR%0A"
+                )
+              }
+              className="flex flex-col justify-center align-middle"
+            >
+              <svg
+                className="w-[20vw] h-[4vh] ml-[7vw]"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill="#ffd3a2"
+                  d="M5 4.5a.5.5 0 0 1-.5-.5V2a.5.5 0 0 1 1 0v2a.5.5 0 0 1-.5.5zM11 4.5a.5.5 0 0 1-.5-.5V2a.5.5 0 0 1 1 0v2a.5.5 0 0 1-.5.5z"
+                />
+                <path
+                  fill="#ffd3a2"
+                  d="M13 14.5H3c-.827 0-1.5-.673-1.5-1.5V4c0-.827.673-1.5 1.5-1.5h10c.827 0 1.5.673 1.5 1.5v9c0 .827-.673 1.5-1.5 1.5zM3 3.5a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V4a.5.5 0 0 0-.5-.5H3z"
+                />
+                <path
+                  fill="#ffd3a2"
+                  d="M14 6.5H2a.5.5 0 0 1 0-1h12a.5.5 0 0 1 0 1zM5.5 7.5h1v1h-1zM7.5 7.5h1v1h-1zM9.5 7.5h1v1h-1zM11.5 7.5h1v1h-1zM3.5 9.5h1v1h-1zM5.5 9.5h1v1h-1zM7.5 9.5h1v1h-1zM9.5 9.5h1v1h-1zM11.5 9.5h1v1h-1zM3.5 11.5h1v1h-1zM5.5 11.5h1v1h-1zM7.5 11.5h1v1h-1z"
+                />
+              </svg>
+              <h1>Add to Other Calenders</h1>
+            </div>
+          </div>
         </div>
-
         <div
           className=" alata w-full text-[5vmin] text-[#fbb86b] text-center"
-          style={
-            minutes > 0 || seconds > 1
-              ? { animation: "fade 1s" }
-              : { opacity: 0 }
-          }
+          style={ani.container ? { animation: "fade 1s" } : { opacity: 0 }}
         >
           <h1 className="mb-[2vh]">LOCATION / ADDRESS</h1>
           <div className="flex align-middle justify-evenly ">
@@ -1143,7 +1237,6 @@ export default function Home() {
             >
               <path
                 fill="#ffd3a2"
-                fill-rule="evenodd"
                 d="M1023 1638l82.8-34.4c-4.6-11.6-18.2-19.6-34.4-19.6-20.7-.1-49.4 18.2-48.4 54m97.2 33.3l31.6 21c-10.2 15.1-34.7 41.1-77.2 41.1-52.6 0-90.6-40.7-90.6-92.6 0-55.1 38.3-92.6 86.1-92.6 43.9 1.5 71.2 29.8 83.5 69.4l-124 51.2c9.5 18.6 24.2 28.1 44.9 28.1 20.6 0 35-10.2 45.5-25.6m-201 56.5h40.7v-272H919zm-66.4-86.7c0-32.6-21.8-56.5-49.5-56.5-28 0-51.6 23.9-51.6 56.5 0 32.3 23.5 55.8 51.6 55.8 27.8 0 49.5-23.5 49.5-55.8zm35.8-87.3v166c0 68.4-40.3 96.5-88 96.5-44.9 0-71.9-30.2-82.1-54.7l35.4-14.7c6.3 15.1 21.8 33 46.7 33 45.5-5.17 49.5-34.6 49.5-67.7h-1.5c-9.1 11.2-26.7 21.1-48.8 21.1-46.3 0-88.8-40.3-88.8-92.3 0-52.3 42.4-93 88.8-93 22.1 0 39.7 9.8 48.8 20.7h1.4v-15.1c0-.1 38.6-.1 38.6-.1zm-444 87c0-33.3-23.8-56.1-51.3-56.1-27.6 0-51.3 22.8-51.3 56.1 0 33 23.8 56.1 51.3 56.1s51.3-23.2 51.3-56.1m40 0c0 53.3-41 92.6-91.3 92.6s-91.3-39.3-91.3-92.6c0-53.7 41-92.6 91.3-92.6s91.3 38.9 91.3 92.6m165 0c0-33.3-23.8-56.1-51.3-56.1-27.6 0-51.3 22.8-51.3 56.1 0 33 23.8 56.1 51.3 56.1s51.3-23.2 51.3-56.1m40 0c0 53.3-41 92.6-91.3 92.6s-91.3-39.3-91.3-92.6c0-53.7 41-92.6 91.3-92.6s91.3 38.9 91.3 92.6m-544 92.6c-79.2 0-146-64.6-146-144 0-79.3 66.7-144 146-144 43.9 0 75.1 17.2 98.6 39.7l-27.7 27.7c-16.8-15.8-39.6-28.1-70.9-28.1-57.9 0-103 46.7-103 104 0 57.9 45.3 104 103 104 37.5 0 58.9-15.1 72.6-28.8 11.2-11.2 18.6-27.4 21.4-49.5h-94v-39.3h132c1.4 7 2.1 15.4 2.1 24.5 0 29.5-8.1 66-34 91.9-25.2 26.5-57.5 40.6-100 40.6"
               />
               <path
@@ -1202,59 +1295,9 @@ export default function Home() {
             </svg>
           </div>
         </div>
+
         <div
-          ref={ref}
-          className=" alata w-full text-[4.2vmin] text-[#ffd3a2] text-center mt-[3vh]"
-          style={
-            minutes > 0 || seconds > 1
-              ? { animation: "fade 0.5s" }
-              : { opacity: 0 }
-          }
-        >
-          <h2>FEBRUARY</h2>
-          <div className="flex mt-[0.5vh]">
-            <div
-              style={
-                minutes > 0 || seconds > 1 ? { animation: "pru 0.5s" } : {}
-              }
-              className="border ml-[6vw] w-[22vw]"
-            ></div>
-            <div
-              style={
-                minutes > 0 || seconds > 1 ? { animation: "pru 0.5s" } : {}
-              }
-              className="border ml-[17vw] w-[26vw]"
-            ></div>
-          </div>
-          <div className="flex relative mt-[0.5vh]">
-            <h2 className="ml-[6vw]">THURSDAY</h2>
-            <h2 className="ml-[2vw] text-[10vmin] absolute left-[28vw] top-[-2.4vh]">
-              23
-            </h2>
-            <h2 className="ml-[17vw] ">AT 3:30 AM</h2>
-          </div>
-          <div className="flex mt-[1vh] mb-[0.5vh]">
-            <div
-              style={
-                minutes > 0 || seconds > 1 ? { animation: "arch 0.5s" } : {}
-              }
-              className="border ml-[6vw] w-[22vw]"
-            ></div>
-            <div
-              style={
-                minutes > 0 || seconds > 1 ? { animation: "arch 0.5s" } : {}
-              }
-              className="border ml-[17vw] w-[26vw]"
-            ></div>
-          </div>
-          <h2>2023</h2>
-        </div>
-        <div
-          style={
-            minutes > 0 || seconds > 1
-              ? { animation: "fade 1s" }
-              : { opacity: 0 }
-          }
+          style={ani.container ? { animation: "fade 1s" } : { opacity: 0 }}
           className="flex align-middle justify-center relative"
         >
           <Image
