@@ -131,8 +131,8 @@ img {
 }
 @keyframes arch {
   0%{
-    -webkit-transform:translateY(100vmin);
-    transform: translateY(100vmin);
+    -webkit-transform:translateY(50vmin);
+    transform: translateY(50vmin);
   }
 
   80%{
@@ -146,8 +146,8 @@ img {
 }
 @keyframes pru {
   0%{
-    -webkit-transform:translateY(-100vmin);
-    transform: translateY(-100vmin);
+    -webkit-transform:translateY(-50vmin);
+    transform: translateY(-50vmin);
   }
 
   80%{
