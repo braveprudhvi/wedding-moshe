@@ -1078,7 +1078,7 @@ export default function Home(props) {
       </svg>
       {ani.svg ? (
         <div
-          onAnimationEnd={() => {
+          onAnimationStart={() => {
             setAni((i) => {
               console.log("container");
               return { ...i, container: 1 };
