@@ -5,9 +5,10 @@ import { use100vh } from "react-div-100vh";
 import { Inter } from "@next/font/google";
 import { JsxAttribute } from "typescript";
 import PageOne from "components/PageOne";
-import PageThree from 'components/PageThree'
+// import PageThree from 'components/PageThree'
 import { useMemo } from "react";
 const PageTwo = lazy(() => import("components/PageTwo"));
+const PageThree = lazy(() => import("components/PageThree"));
 // import from='"./page.ubsets: ['latin'] })
 
 export default function Home() {
@@ -21,10 +22,10 @@ export default function Home() {
       className=" relative w-full  overflow-auto snaps"
     >
       <PageOne></PageOne>
-      {/* <Suspense fallback={<div>Loading...</div>}> */}
+      <Suspense fallback={<div>Loading...</div>}>
       <PageTwo></PageTwo>
       <PageThree></PageThree>
-      {/* </Suspense> */}
+      </Suspense>
     </div>
   );
 }

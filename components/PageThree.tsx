@@ -1,50 +1,45 @@
 "use client";
-import ICS from '../public/Calender.ics'
 import { useInView } from "react-intersection-observer";
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import logo from "../public/logos.png";
-import { useStopwatch, useTimer } from "react-timer-hook";
-export default function Home() {
-  const { seconds, minutes, pause, start } = useStopwatch({
-    autoStart: false,
-  });
-  const mDate = new Date(2023, 1, 23);
+import { useTimer } from "react-timer-hook";
+export default function Home(props) {
+  const mDate = new Date(2023, 1, 23, 3, 38);
   const diff = useTimer({
     expiryTimestamp: mDate,
     onExpire: () => console.warn("onExpire called"),
   });
-  const today = Date.now();
   const router = usePathname();
   const [s, setS] = useState(0);
   const [ani, setAni] = useState({});
   const { ref, inView } = useInView({
     threshold: 0,
   });
-  useEffect(() => {
-    if (inView) {
-      start();
-      setS((i) => i + 1);
-    } else {
-      pause();
-    }
-  }, [inView]);
 
   return (
     <div className="h-full relative w-[100vw] overflow-hidden antialiased scrolls">
       <svg
-        onAnimationEnd={() => {
-          console.log("ani ended");
+        onAnimationStart={() => {
+          setAni((i) => {
+            console.log(i, "ended");
+            return { ...i, svg: 1 };
+          });
         }}
         style={
-          (minutes > 0 && inView) || (seconds > 1 && inView)
+          inView && ani.svg
             ? {
                 animation: "spinner 35s linear infinite",
                 WebkitAnimation: "spinner 35s linear infinite",
               }
-            : { animation: "fade 1s" }
+            : inView
+            ? {
+                animation: "fade 0.5s",
+                WebkitAnimation: "fade 0.5s",
+              }
+            : { opacity: 0 }
         }
         className=" z-[20] w-[120vw] absolute overflow-hidden bottom-[20vh] left-[-10vw]"
         xmlns="http://www.w3.org/2000/svg"
@@ -74,12 +69,17 @@ export default function Home() {
       <svg
         ref={ref}
         style={
-          (minutes > 0 && inView) || (seconds > 1 && inView)
+          inView && ani.svg
             ? {
                 animation: "spinner 35s linear infinite",
                 WebkitAnimation: "spinner 35s linear infinite",
               }
-            : {}
+            : inView
+            ? {
+                animation: "fade 2s",
+                WebkitAnimation: "fade 2s",
+              }
+            : { opacity: 0 }
         }
         className=" z-[20] w-[120vw] absolute overflow-hidden bottom-[20vh] left-[-10vw]"
         xmlns="http://www.w3.org/2000/svg"
@@ -1076,240 +1076,356 @@ export default function Home() {
           ></path>
         </g>
       </svg>
-      <div
-        onAnimationEnd={() => {
-          setAni((i) => {
-            return { ...i, container: 1 };
-          });
-        }}
-        style={s ? { animation: "open 0.7s" } : { opacity: 0 }}
-        className="shadow z-20 h-full absolute w-[75vw] overflow-hidden bg-[#05112d] left-[12vw] flex flex-col pr-[0.8vmin] pl-[0.8vmin] pt-[5vh] gap-[5vh]"
-      >
+      {ani.svg ? (
         <div
-          className=" alata w-full text-[5vmin] text-[#fbb86b] text-center"
-          style={ani.container ? { animation: "fade 1s" } : { opacity: 0 }}
+          onAnimationEnd={() => {
+            setAni((i) => {
+              console.log("container");
+              return { ...i, container: 1 };
+            });
+          }}
+          style={{ animation: "open 0.7s" }}
+          className="shadow z-20 h-full absolute w-[75vw] overflow-hidden bg-[#05112d] left-[12vw] flex flex-col pr-[0.8vmin] pl-[0.8vmin] pt-[4vh] gap-[6vh]"
         >
-          <h1>COUNTDOWN</h1>
-          <div className="flex text-[9vmin] gap-[4vw] align-middle text-[#ffd3a2] justify-center">
-            <div>
-              <h2 suppressHydrationWarning={true} className="text-[#ffd3a2]">
-                {("0" + diff.days).slice(-2)}
-              </h2>
-              <h2 className="text-[3.5vmin]">Days</h2>
+          <div className=" alata w-full text-[6vmin] text-[#fbb86b] text-center">
+            <h1
+              onAnimationEnd={() => {
+                console.log("inner");
+                setAni((i) => {
+                  return { ...i, inner: 1 };
+                });
+              }}
+              style={
+                ani.container ? { animation: "bounce 0.6s" } : { opacity: 0 }
+              }
+            >
+              COUNTDOWN
+            </h1>
+            <div className="flex text-[9vmin] gap-[4vw] align-middle text-[#ffd3a2] justify-center">
+              <div
+                style={ani.inner ? { animation: "flipi 0.6s" } : { opacity: 0 }}
+              >
+                <h2 suppressHydrationWarning={true} className="text-[#ffd3a2]">
+                  {("0" + diff.days).slice(-2)}
+                </h2>
+                <h2 className="text-[3.5vmin]">Days</h2>
+              </div>
+              <div
+                style={ani.inner ? { animation: "flipi 0.8s" } : { opacity: 0 }}
+              >
+                <h2 suppressHydrationWarning={true} className="text-[#ffd3a2]">
+                  {("0" + diff.hours).slice(-2)}
+                </h2>
+                <h2 className="text-[3.5vmin]">Hours</h2>
+              </div>
+              <div
+                style={ani.inner ? { animation: "flipi 1s" } : { opacity: 0 }}
+              >
+                <h2 suppressHydrationWarning={true} className="text-[#ffd3a2]">
+                  {("0" + diff.minutes).slice(-2)}
+                </h2>
+                <h2 className="text-[3.5vmin]">Minutes</h2>
+              </div>
+              <div
+                style={ani.inner ? { animation: "flipi 1.2s" } : { opacity: 0 }}
+              >
+                <h2 suppressHydrationWarning={true} className="text-[#ffd3a2]">
+                  {("0" + diff.seconds).slice(-2)}
+                </h2>
+                <h2 className="text-[3.5vmin]">Seconds</h2>
+              </div>
             </div>
-            <div>
-              <h2 suppressHydrationWarning={true} className="text-[#ffd3a2]">
-                {("0" + diff.hours).slice(-2)}
-              </h2>
-              <h2 className="text-[3.5vmin]">Hours</h2>
-            </div>
-            <div>
-              <h2 suppressHydrationWarning={true} className="text-[#ffd3a2]">
-                {("0" + diff.minutes).slice(-2)}
-              </h2>
-              <h2 className="text-[3.5vmin]">Minutes</h2>
-            </div>
-            <div>
-              <h2 suppressHydrationWarning={true} className="text-[#ffd3a2]">
-                {("0" + diff.seconds).slice(-2)}
-              </h2>
-              <h2 className="text-[3.5vmin]">Seconds</h2>
+            <div className="flex text-[3.6vmin] mt-[3vh] text-[#ffd3a2]">
+              <div
+                style={ani.inner ? { animation: "flip 0.6s" } : { opacity: 0 }}
+                onClick={() =>
+                  window.open(
+                    "https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=NjhkMjhoZmRmNXB2aDE0cGsydm5qdTIyMTggYm9qYW5hcHVzYWlwcmFzYW50aDk4MUBt&tmsrc=bojanapusaiprasanth981%40gmail.com",
+                    "_self"
+                  )
+                }
+                onTouchCancel={() =>
+                  window.open(
+                    "https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=NjhkMjhoZmRmNXB2aDE0cGsydm5qdTIyMTggYm9qYW5hcHVzYWlwcmFzYW50aDk4MUBt&tmsrc=bojanapusaiprasanth981%40gmail.com",
+                    "_self"
+                  )
+                }
+                className="flex flex-col justify-center align-middle"
+              >
+                <svg
+                  className="w-[20vw] h-[4vh] ml-[7vw]"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="32"
+                  height="32"
+                  data-name="Layer 1"
+                  viewBox="0 0 32 32"
+                >
+                  <path
+                    fill="#ffd3a2"
+                    d="M22,4.5v6H10v11H4V6.5a2.0059,2.0059,0,0,1,2-2Z"
+                  />
+                  <polygon
+                    fill="#ffd3a2"
+                    points="22 27.5 22 21.5 28 21.5 22 27.5"
+                  />
+                  <rect width="6" height="12" x="22" y="9.5" fill="#ffd3a2" />
+                  <rect
+                    width="6"
+                    height="12"
+                    x="13"
+                    y="18.5"
+                    fill="#ffd3a2"
+                    transform="rotate(90 16 24.5)"
+                  />
+                  <path
+                    fill="#ffd3a2"
+                    d="M28,6.5v4H22v-6h4A2.0059,2.0059,0,0,1,28,6.5Z"
+                  />
+                  <path
+                    fill="#ffd3a2"
+                    d="M10,21.5v6H6a2.0059,2.0059,0,0,1-2-2v-4Z"
+                  />
+                  <path
+                    fill="#ffd3a2"
+                    d="M15.69,17.09c0,.89-.66,1.79-2.15,1.79a3.0026,3.0026,0,0,1-1.52-.39l-.08-.06.29-.82.13.08a2.3554,2.3554,0,0,0,1.17.34,1.191,1.191,0,0,0,.88-.31.8586.8586,0,0,0,.25-.65c-.01-.73-.68-.99-1.31-.99h-.54v-.81h.54c.45,0,1.12-.22,1.12-.82,0-.45-.31-.71-.85-.71a1.8865,1.8865,0,0,0-1.04.34l-.14.1-.28-.79.07-.06a2.834,2.834,0,0,1,1.53-.45c1.19,0,1.72.73,1.72,1.45a1.4369,1.4369,0,0,1-.81,1.3A1.52,1.52,0,0,1,15.69,17.09Z"
+                  />
+                  <polygon
+                    fill="#ffd3a2"
+                    points="18.71 12.98 18.71 18.79 17.73 18.79 17.73 14 16.79 14.51 16.58 13.69 17.95 12.98 18.71 12.98"
+                  />
+                </svg>
+                <h1>Add to Google Calender</h1>
+              </div>
+              <div
+                style={ani.inner ? { animation: "flipz 0.6s" } : { opacity: 0 }}
+                onClick={() =>
+                  window.open(
+                    "data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ADTSTART:20230222T150000Z%0ADTEND:20230223T030000Z%0ASUMMARY:Prasanth%20Weds%20Archana%0ADESCRIPTION:We%20are%20Inviting%20you%20to%20Celebrate%20their%20Wedding%20with%20Joy%20and%20Happiness.%0ALOCATION:AVADHOOTHA%20DATTA%20PEETHAM%2C%20M9Q4%2BP4J%2C%20Ghogarbha%20Teertham%20Rd%2C%20Tirumala%2C%20Tirupati%2C%20Andhra%20Pradesh%20517504%2C%20India%0AEND:VEVENT%0AEND:VCALENDAR%0A",
+                    "_self"
+                  )
+                }
+                onTouchCancel={() =>
+                  window.open(
+                    "data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ADTSTART:20230222T150000Z%0ADTEND:20230223T030000Z%0ASUMMARY:Prasanth%20Weds%20Archana%0ADESCRIPTION:We%20are%20Inviting%20you%20to%20Celebrate%20their%20Wedding%20with%20Joy%20and%20Happiness.%0ALOCATION:AVADHOOTHA%20DATTA%20PEETHAM%2C%20M9Q4%2BP4J%2C%20Ghogarbha%20Teertham%20Rd%2C%20Tirumala%2C%20Tirupati%2C%20Andhra%20Pradesh%20517504%2C%20India%0AEND:VEVENT%0AEND:VCALENDAR%0A"
+                  )
+                }
+                className="flex flex-col justify-center align-middle"
+              >
+                <svg
+                  className="w-[20vw] h-[4vh] ml-[7vw]"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill="#ffd3a2"
+                    d="M5 4.5a.5.5 0 0 1-.5-.5V2a.5.5 0 0 1 1 0v2a.5.5 0 0 1-.5.5zM11 4.5a.5.5 0 0 1-.5-.5V2a.5.5 0 0 1 1 0v2a.5.5 0 0 1-.5.5z"
+                  />
+                  <path
+                    fill="#ffd3a2"
+                    d="M13 14.5H3c-.827 0-1.5-.673-1.5-1.5V4c0-.827.673-1.5 1.5-1.5h10c.827 0 1.5.673 1.5 1.5v9c0 .827-.673 1.5-1.5 1.5zM3 3.5a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V4a.5.5 0 0 0-.5-.5H3z"
+                  />
+                  <path
+                    fill="#ffd3a2"
+                    d="M14 6.5H2a.5.5 0 0 1 0-1h12a.5.5 0 0 1 0 1zM5.5 7.5h1v1h-1zM7.5 7.5h1v1h-1zM9.5 7.5h1v1h-1zM11.5 7.5h1v1h-1zM3.5 9.5h1v1h-1zM5.5 9.5h1v1h-1zM7.5 9.5h1v1h-1zM9.5 9.5h1v1h-1zM11.5 9.5h1v1h-1zM3.5 11.5h1v1h-1zM5.5 11.5h1v1h-1zM7.5 11.5h1v1h-1z"
+                  />
+                </svg>
+                <h1>Add to Other Calenders</h1>
+              </div>
             </div>
           </div>
-          <div className="flex text-[3.6vmin] mt-[3vh] text-[#ffd3a2]">
-            <div
-              onClick={() =>
-                window.open(
-                  "https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=NjhkMjhoZmRmNXB2aDE0cGsydm5qdTIyMTggYm9qYW5hcHVzYWlwcmFzYW50aDk4MUBt&tmsrc=bojanapusaiprasanth981%40gmail.com",
-                  "_self"
-                )
+          <div
+            className=" alata w-full text-[5vmin] text-[#fbb86b] text-center"
+            style={ani.container ? { animation: "fade 2s" } : { opacity: 0 }}
+          >
+            <h1
+              style={
+                ani.container ? { animation: "bounce 0.6s" } : { opacity: 0 }
               }
-              onTouchCancel={() =>
-                window.open(
-                  "https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=NjhkMjhoZmRmNXB2aDE0cGsydm5qdTIyMTggYm9qYW5hcHVzYWlwcmFzYW50aDk4MUBt&tmsrc=bojanapusaiprasanth981%40gmail.com",
-                  "_self"
-                )
-              }
-              className="flex flex-col justify-center align-middle"
+              className="mb-[3vh]"
             >
+              LOCATION / ADDRESS
+            </h1>
+            <div className="flex align-middle justify-evenly ">
               <svg
-                className="w-[20vw] h-[4vh] ml-[7vw]"
+                style={ani.inner ? { animation: "flip 0.6s" } : { opacity: 0 }}
+                onClick={() =>
+                  window.open(
+                    "https://maps.app.goo.gl/hsFtrSHz3WBXd1Ne9",
+                    "_self"
+                  )
+                }
+                onTouchCancel={() =>
+                  window.open(
+                    "https://maps.app.goo.gl/hsFtrSHz3WBXd1Ne9",
+                    "_self"
+                  )
+                }
+                className="w-[23vw] h-[8vh]"
                 xmlns="http://www.w3.org/2000/svg"
-                width="32"
-                height="32"
-                data-name="Layer 1"
-                viewBox="0 0 32 32"
+                viewBox="0 0 2017 1816"
               >
                 <path
                   fill="#ffd3a2"
-                  d="M22,4.5v6H10v11H4V6.5a2.0059,2.0059,0,0,1,2-2Z"
-                />
-                <polygon
-                  fill="#ffd3a2"
-                  points="22 27.5 22 21.5 28 21.5 22 27.5"
-                />
-                <rect width="6" height="12" x="22" y="9.5" fill="#ffd3a2" />
-                <rect
-                  width="6"
-                  height="12"
-                  x="13"
-                  y="18.5"
-                  fill="#ffd3a2"
-                  transform="rotate(90 16 24.5)"
+                  d="M1023 1638l82.8-34.4c-4.6-11.6-18.2-19.6-34.4-19.6-20.7-.1-49.4 18.2-48.4 54m97.2 33.3l31.6 21c-10.2 15.1-34.7 41.1-77.2 41.1-52.6 0-90.6-40.7-90.6-92.6 0-55.1 38.3-92.6 86.1-92.6 43.9 1.5 71.2 29.8 83.5 69.4l-124 51.2c9.5 18.6 24.2 28.1 44.9 28.1 20.6 0 35-10.2 45.5-25.6m-201 56.5h40.7v-272H919zm-66.4-86.7c0-32.6-21.8-56.5-49.5-56.5-28 0-51.6 23.9-51.6 56.5 0 32.3 23.5 55.8 51.6 55.8 27.8 0 49.5-23.5 49.5-55.8zm35.8-87.3v166c0 68.4-40.3 96.5-88 96.5-44.9 0-71.9-30.2-82.1-54.7l35.4-14.7c6.3 15.1 21.8 33 46.7 33 45.5-5.17 49.5-34.6 49.5-67.7h-1.5c-9.1 11.2-26.7 21.1-48.8 21.1-46.3 0-88.8-40.3-88.8-92.3 0-52.3 42.4-93 88.8-93 22.1 0 39.7 9.8 48.8 20.7h1.4v-15.1c0-.1 38.6-.1 38.6-.1zm-444 87c0-33.3-23.8-56.1-51.3-56.1-27.6 0-51.3 22.8-51.3 56.1 0 33 23.8 56.1 51.3 56.1s51.3-23.2 51.3-56.1m40 0c0 53.3-41 92.6-91.3 92.6s-91.3-39.3-91.3-92.6c0-53.7 41-92.6 91.3-92.6s91.3 38.9 91.3 92.6m165 0c0-33.3-23.8-56.1-51.3-56.1-27.6 0-51.3 22.8-51.3 56.1 0 33 23.8 56.1 51.3 56.1s51.3-23.2 51.3-56.1m40 0c0 53.3-41 92.6-91.3 92.6s-91.3-39.3-91.3-92.6c0-53.7 41-92.6 91.3-92.6s91.3 38.9 91.3 92.6m-544 92.6c-79.2 0-146-64.6-146-144 0-79.3 66.7-144 146-144 43.9 0 75.1 17.2 98.6 39.7l-27.7 27.7c-16.8-15.8-39.6-28.1-70.9-28.1-57.9 0-103 46.7-103 104 0 57.9 45.3 104 103 104 37.5 0 58.9-15.1 72.6-28.8 11.2-11.2 18.6-27.4 21.4-49.5h-94v-39.3h132c1.4 7 2.1 15.4 2.1 24.5 0 29.5-8.1 66-34 91.9-25.2 26.5-57.5 40.6-100 40.6"
                 />
                 <path
                   fill="#ffd3a2"
-                  d="M28,6.5v4H22v-6h4A2.0059,2.0059,0,0,1,28,6.5Z"
+                  d="M1249.14 1725.74v-241.806h31.228l83.978 147.278h1.266l83.978-147.278h31.228v241.806H1449.6l1.266-183.992h-1.266l-75.538 132.508h-18.146l-75.538-132.508h-1.266c2.304 61.2 1.266 122.802 1.266 183.992zm329.16 4.22c-17.724 0-32.072-5.064-43.888-15.192s-17.724-23.632-17.724-40.1c0-18.146 7.174-32.072 21.1-42.2s31.228-15.192 51.484-15.192c18.146 0 33.338 3.376 44.732 10.128-.303-35.1-24.56-44.732-43.466-44.732-17.85.848-33.338 8.313-39.668 24.054l-28.274-12.238c3.798-9.706 11.394-19 22.788-27.43s26.164-12.66 44.732-12.66c21.1 0 38.824 6.33 52.75 18.568s21.1 29.962 21.1 52.328v100.014h-29.54v-22.788c-13.8 17.302-32.452 27.05-56.126 27.43zm55.704-76.804c-18.188-13.842-56.126-15.572-73.85-1.266-13.926 13.504-15.403 31.608-.844 42.2 35.195 22.577 75.96-12.576 74.694-40.934zm151.076 76.804c-12.66 0-24.054-2.532-33.76-8.018s-17.302-12.238-22.366-20.256h-1.688l1.266 22.788v73.006h-30.806v-238.43h29.54v22.788h1.266c5.064-8.018 12.238-14.77 22.366-20.256s21.522-8.018 33.76-8.018c21.522 0 39.668 8.44 55.282 25.32s23.2 37.98 23.2 62.878-7.596 45.998-23.2 62.878c-15.192 16.88-33.76 25.32-54.86 25.32zm-5.064-28.696c14.348 0 26.586-5.486 37.136-16.458s15.614-25.32 15.614-43.466-5.064-32.494-15.614-43.466-22.788-16.458-37.136-16.458c-14.77 0-27.008 5.486-37.136 16.036-10.128 10.972-15.192 25.32-15.192 43.466s5.064 32.916 15.192 43.466c10.128 11.816 22.366 16.88 37.136 16.88zm173.864 28.696c-18.568 0-33.76-4.642-45.576-13.504-12.238-8.862-20.678-20.256-26.586-33.76l27.852-11.394c8.862 20.678 23.632 31.228 44.732 31.228 9.706 0 17.724-2.1 23.632-6.33 6.33-4.22 9.284-9.706 9.284-16.88 0-10.972-7.596-18.146-22.788-21.944l-33.338-8.018c-10.55-2.532-20.678-8.018-29.962-15.192s-14.348-17.724-14.348-30.384c0-14.77 6.33-26.586 19.412-35.448 13.082-9.284 28.274-13.504 45.998-13.504 14.77 0 27.852 3.376 39.246 10.128s19.834 16.036 24.476 28.696l-27.008 10.972c-5.908-14.77-18.568-21.944-37.98-21.944-9.284 0-16.88 2.1-23.2 5.908s-9.284 8.862-9.284 15.614c0 9.284 7.174 16.036 21.944 19.412l32.916 7.596c15.614 3.798 27.008 9.706 34.604 18.568s10.972 18.568 10.972 29.54c0 14.77-5.908 27.43-18.146 37.136-11.816 8.44-27.43 13.504-46.842 13.504z"
                 />
                 <path
+                  className="h-[2vh]"
+                  // fill="#34a853"
                   fill="#ffd3a2"
-                  d="M10,21.5v6H6a2.0059,2.0059,0,0,1-2-2v-4Z"
+                  d="M831 909.9c37.9 47.4 76.5 107 96.7 143 24.6 46.8 34.8 78.4 53.1 135 10.7 31 20.9 40.4 42.3 40.4 23.4 0 34.1-15.8 42.3-40.4 17.1-53.1 30.3-93.5 51.2-132 80.6-152 212-260 286-408 0 0 48.7-90.4 48.7-217 0-118-48-200-48-200l-572 680z"
                 />
                 <path
+                  // fill="#fbbc04"
                   fill="#ffd3a2"
-                  d="M15.69,17.09c0,.89-.66,1.79-2.15,1.79a3.0026,3.0026,0,0,1-1.52-.39l-.08-.06.29-.82.13.08a2.3554,2.3554,0,0,0,1.17.34,1.191,1.191,0,0,0,.88-.31.8586.8586,0,0,0,.25-.65c-.01-.73-.68-.99-1.31-.99h-.54v-.81h.54c.45,0,1.12-.22,1.12-.82,0-.45-.31-.71-.85-.71a1.8865,1.8865,0,0,0-1.04.34l-.14.1-.28-.79.07-.06a2.834,2.834,0,0,1,1.53-.45c1.19,0,1.72.73,1.72,1.45a1.4369,1.4369,0,0,1-.81,1.3A1.52,1.52,0,0,1,15.69,17.09Z"
+                  d="M637 631.9c46.1 105 134 197 194 278l318-377s-44.9 58.8-126 58.8c-90.4 0-164-72-164-163 0-62.6 37.3-106 37.3-106-234 34.8-221 91.5-260 309z"
                 />
-                <polygon
+                <path
+                  // fill="#4285f4"
                   fill="#ffd3a2"
-                  points="18.71 12.98 18.71 18.79 17.73 18.79 17.73 14 16.79 14.51 16.58 13.69 17.95 12.98 18.71 12.98"
+                  d="M1153 19.6c106 34.1 196 106 250 211l-254 303s37.3-43.6 37.3-106c0-92.9-78.4-163-163-163-80.3 0-126 58.1-126 58.1 19.5-44.4 221-288 256-303z"
+                />
+                <path
+                  // fill="#1a73e8"
+                  fill="#ffd3a2"
+                  d="M695 152.9c63.2-75.2 174-153 327-153 73.9 0 130 19.6 130 19.6l-255 303c-17.2-9.33-185-140-202-170z"
+                />
+                <path
+                  // fill="#ea4335"
+                  fill="#ffd3a2"
+                  d="M637 631.9s-41.7-82.8-41.7-202c0-113 44.2-212 100-276l202 170-260 308z"
                 />
               </svg>
-              <h1>Add to Google Calender</h1>
-            </div>
-            <div
-              onClick={() =>
-                window.open(
-                  "data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ADTSTART:20230222T150000Z%0ADTEND:20230223T030000Z%0ASUMMARY:Prasanth%20Weds%20Archana%0ADESCRIPTION:We%20are%20Inviting%20you%20to%20Celebrate%20their%20Wedding%20with%20Joy%20and%20Happiness.%0ALOCATION:AVADHOOTHA%20DATTA%20PEETHAM%2C%20M9Q4%2BP4J%2C%20Ghogarbha%20Teertham%20Rd%2C%20Tirumala%2C%20Tirupati%2C%20Andhra%20Pradesh%20517504%2C%20India%0AEND:VEVENT%0AEND:VCALENDAR%0A",
-                  "_self"
-                )
-              }
-              onTouchCancel={() =>
-                window.open(
-                  "data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ADTSTART:20230222T150000Z%0ADTEND:20230223T030000Z%0ASUMMARY:Prasanth%20Weds%20Archana%0ADESCRIPTION:We%20are%20Inviting%20you%20to%20Celebrate%20their%20Wedding%20with%20Joy%20and%20Happiness.%0ALOCATION:AVADHOOTHA%20DATTA%20PEETHAM%2C%20M9Q4%2BP4J%2C%20Ghogarbha%20Teertham%20Rd%2C%20Tirumala%2C%20Tirupati%2C%20Andhra%20Pradesh%20517504%2C%20India%0AEND:VEVENT%0AEND:VCALENDAR%0A"
-                )
-              }
-              className="flex flex-col justify-center align-middle"
-            >
               <svg
-                className="w-[20vw] h-[4vh] ml-[7vw]"
+                style={ani.inner ? { animation: "flipz 0.6s" } : { opacity: 0 }}
+                onClick={() =>
+                  window.open(
+                    "https://maps.apple.com/?address=Tirupati%20Urban,%20Tirupati,%20517504,%20Andhra%20Pradesh,%20India&auid=4090662749753956787&ll=13.689346,79.355497&lsp=9902&q=Avadhoota%20Datta%20Peetham&t=m",
+                    "_self"
+                  )
+                }
+                onTouchCancel={() =>
+                  window.open(
+                    "https://maps.apple.com/?address=Tirupati%20Urban,%20Tirupati,%20517504,%20Andhra%20Pradesh,%20India&auid=4090662749753956787&ll=13.689346,79.355497&lsp=9902&q=Avadhoota%20Datta%20Peetham&t=m",
+                    "_self"
+                  )
+                }
+                className="w-[23vw]"
                 xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 16 16"
+                viewBox="0 0 10000 3050"
               >
                 <path
+                  id="_Maps"
                   fill="#ffd3a2"
-                  d="M5 4.5a.5.5 0 0 1-.5-.5V2a.5.5 0 0 1 1 0v2a.5.5 0 0 1-.5.5zM11 4.5a.5.5 0 0 1-.5-.5V2a.5.5 0 0 1 1 0v2a.5.5 0 0 1-.5.5z"
-                />
-                <path
-                  fill="#ffd3a2"
-                  d="M13 14.5H3c-.827 0-1.5-.673-1.5-1.5V4c0-.827.673-1.5 1.5-1.5h10c.827 0 1.5.673 1.5 1.5v9c0 .827-.673 1.5-1.5 1.5zM3 3.5a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V4a.5.5 0 0 0-.5-.5H3z"
-                />
-                <path
-                  fill="#ffd3a2"
-                  d="M14 6.5H2a.5.5 0 0 1 0-1h12a.5.5 0 0 1 0 1zM5.5 7.5h1v1h-1zM7.5 7.5h1v1h-1zM9.5 7.5h1v1h-1zM11.5 7.5h1v1h-1zM3.5 9.5h1v1h-1zM5.5 9.5h1v1h-1zM7.5 9.5h1v1h-1zM9.5 9.5h1v1h-1zM11.5 9.5h1v1h-1zM3.5 11.5h1v1h-1zM5.5 11.5h1v1h-1zM7.5 11.5h1v1h-1z"
+                  d="M1393.93,402.59  c76.49-92.42,132.26-221.49,132.26-350.56c0-17.53-1.59-35.06-4.78-49.4c-125.88,4.78-277.26,84.45-368.09,191.22  c-71.71,81.27-137.04,208.74-137.04,339.41c0,19.12,3.19,38.24,4.78,44.62c11.03,2.09,22.23,3.15,33.46,3.19  C1167.66,581.05,1309.48,504.57,1393.93,402.59z M1483.17,608.14c-189.62,0-344.19,114.73-441.39,114.73  c-105.17,0-243.8-108.36-407.93-108.36c-312.32,0-629.42,258.14-629.42,745.74c0,302.76,117.92,623.05,262.92,830.2  c124.29,175.28,232.65,318.7,388.81,318.7c154.57,0,223.09-103.58,415.89-103.58c196,0,239.02,100.39,411.12,100.39  c168.91,0,282.04-156.16,388.81-309.14c119.51-175.28,168.9-347.37,172.09-355.34c-11.15-3.19-334.63-135.44-334.63-506.72  c0-321.88,254.96-466.89,269.3-478.04C1809.83,614.52,1553.28,608.14,1483.17,608.14L1483.17,608.14z M4831.69,2491.8V192.43  h-474.86l-704.31,1754.41h-12.75L2935.46,192.43h-476.45V2491.8h371.28V860.09h11.15l664.48,1631.71h280.45l664.48-1631.71H4462  V2491.8H4831.69z M5606.56,2518.89c216.71,0,428.64-113.13,525.85-296.38h7.96v269.29h382.44V1328.57  c0-339.41-272.49-560.9-691.57-560.9c-430.24,0-699.53,226.27-717.06,541.78h368.09c25.5-140.23,145.01-231.05,333.04-231.05  c195.99,0,315.5,101.98,315.5,278.85v121.11l-446.17,25.49c-411.11,25.5-642.17,205.56-642.17,505.13  C5042.47,2313.34,5279.9,2518.89,5606.56,2518.89L5606.56,2518.89z M5726.07,2219.32c-172.09,0-286.82-87.64-286.82-226.27  c0-133.85,109.95-219.9,301.16-232.65l390.4-23.9v129.07C6130.81,2069.53,5950.75,2219.32,5726.07,2219.32z M7719.95,774.04  c-245.39,0-436.61,124.29-532.22,320.29h-7.97v-291.6h-387.21v2245.2h396.77v-836.58h7.97c92.42,189.63,283.64,307.54,529.03,307.54  c423.87,0,694.76-333.03,694.76-871.63C8421.08,1107.08,8148.59,774.04,7719.95,774.04z M7598.85,2193.82  c-246.99,0-411.12-215.11-412.71-546.56c1.59-328.25,165.72-546.56,412.71-546.56c256.54,0,415.89,213.53,415.89,546.56  C8014.74,1981.89,7855.39,2193.82,7598.85,2193.82z M8596.8,1287.14c0,250.17,162.54,409.52,486.01,481.23l280.45,62.14  c176.88,39.84,237.43,97.21,237.43,199.19c0,125.88-119.51,205.56-312.32,205.56c-200.78,0-313.91-82.87-344.19-246.99h-390.4  c31.87,326.66,293.2,537,734.59,537c414.3,0,707.5-215.12,707.5-533.82c0-245.39-135.44-380.84-486.01-458.92l-280.45-62.14  c-176.87-39.84-246.99-106.76-246.99-203.97c0-124.29,116.33-207.15,291.61-207.15c183.25,0,296.39,97.21,312.32,250.18h369.69  c-9.57-320.29-270.89-541.78-682.01-541.78C8866.1,767.67,8596.8,978.01,8596.8,1287.14L8596.8,1287.14z"
                 />
               </svg>
-              <h1>Add to Other Calenders</h1>
             </div>
           </div>
-        </div>
-        <div
-          className=" alata w-full text-[5vmin] text-[#fbb86b] text-center"
-          style={ani.container ? { animation: "fade 1s" } : { opacity: 0 }}
-        >
-          <h1 className="mb-[2vh]">LOCATION / ADDRESS</h1>
-          <div className="flex align-middle justify-evenly ">
-            <svg
-              onClick={() =>
-                window.open(
-                  "https://maps.app.goo.gl/hsFtrSHz3WBXd1Ne9",
-                  "_self"
-                )
-              }
-              onTouchCancel={() =>
-                window.open(
-                  "https://maps.app.goo.gl/hsFtrSHz3WBXd1Ne9",
-                  "_self"
-                )
-              }
-              className="w-[23vw] h-[8vh]"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 2017 1816"
-            >
-              <path
-                fill="#ffd3a2"
-                d="M1023 1638l82.8-34.4c-4.6-11.6-18.2-19.6-34.4-19.6-20.7-.1-49.4 18.2-48.4 54m97.2 33.3l31.6 21c-10.2 15.1-34.7 41.1-77.2 41.1-52.6 0-90.6-40.7-90.6-92.6 0-55.1 38.3-92.6 86.1-92.6 43.9 1.5 71.2 29.8 83.5 69.4l-124 51.2c9.5 18.6 24.2 28.1 44.9 28.1 20.6 0 35-10.2 45.5-25.6m-201 56.5h40.7v-272H919zm-66.4-86.7c0-32.6-21.8-56.5-49.5-56.5-28 0-51.6 23.9-51.6 56.5 0 32.3 23.5 55.8 51.6 55.8 27.8 0 49.5-23.5 49.5-55.8zm35.8-87.3v166c0 68.4-40.3 96.5-88 96.5-44.9 0-71.9-30.2-82.1-54.7l35.4-14.7c6.3 15.1 21.8 33 46.7 33 45.5-5.17 49.5-34.6 49.5-67.7h-1.5c-9.1 11.2-26.7 21.1-48.8 21.1-46.3 0-88.8-40.3-88.8-92.3 0-52.3 42.4-93 88.8-93 22.1 0 39.7 9.8 48.8 20.7h1.4v-15.1c0-.1 38.6-.1 38.6-.1zm-444 87c0-33.3-23.8-56.1-51.3-56.1-27.6 0-51.3 22.8-51.3 56.1 0 33 23.8 56.1 51.3 56.1s51.3-23.2 51.3-56.1m40 0c0 53.3-41 92.6-91.3 92.6s-91.3-39.3-91.3-92.6c0-53.7 41-92.6 91.3-92.6s91.3 38.9 91.3 92.6m165 0c0-33.3-23.8-56.1-51.3-56.1-27.6 0-51.3 22.8-51.3 56.1 0 33 23.8 56.1 51.3 56.1s51.3-23.2 51.3-56.1m40 0c0 53.3-41 92.6-91.3 92.6s-91.3-39.3-91.3-92.6c0-53.7 41-92.6 91.3-92.6s91.3 38.9 91.3 92.6m-544 92.6c-79.2 0-146-64.6-146-144 0-79.3 66.7-144 146-144 43.9 0 75.1 17.2 98.6 39.7l-27.7 27.7c-16.8-15.8-39.6-28.1-70.9-28.1-57.9 0-103 46.7-103 104 0 57.9 45.3 104 103 104 37.5 0 58.9-15.1 72.6-28.8 11.2-11.2 18.6-27.4 21.4-49.5h-94v-39.3h132c1.4 7 2.1 15.4 2.1 24.5 0 29.5-8.1 66-34 91.9-25.2 26.5-57.5 40.6-100 40.6"
-              />
-              <path
-                fill="#ffd3a2"
-                d="M1249.14 1725.74v-241.806h31.228l83.978 147.278h1.266l83.978-147.278h31.228v241.806H1449.6l1.266-183.992h-1.266l-75.538 132.508h-18.146l-75.538-132.508h-1.266c2.304 61.2 1.266 122.802 1.266 183.992zm329.16 4.22c-17.724 0-32.072-5.064-43.888-15.192s-17.724-23.632-17.724-40.1c0-18.146 7.174-32.072 21.1-42.2s31.228-15.192 51.484-15.192c18.146 0 33.338 3.376 44.732 10.128-.303-35.1-24.56-44.732-43.466-44.732-17.85.848-33.338 8.313-39.668 24.054l-28.274-12.238c3.798-9.706 11.394-19 22.788-27.43s26.164-12.66 44.732-12.66c21.1 0 38.824 6.33 52.75 18.568s21.1 29.962 21.1 52.328v100.014h-29.54v-22.788c-13.8 17.302-32.452 27.05-56.126 27.43zm55.704-76.804c-18.188-13.842-56.126-15.572-73.85-1.266-13.926 13.504-15.403 31.608-.844 42.2 35.195 22.577 75.96-12.576 74.694-40.934zm151.076 76.804c-12.66 0-24.054-2.532-33.76-8.018s-17.302-12.238-22.366-20.256h-1.688l1.266 22.788v73.006h-30.806v-238.43h29.54v22.788h1.266c5.064-8.018 12.238-14.77 22.366-20.256s21.522-8.018 33.76-8.018c21.522 0 39.668 8.44 55.282 25.32s23.2 37.98 23.2 62.878-7.596 45.998-23.2 62.878c-15.192 16.88-33.76 25.32-54.86 25.32zm-5.064-28.696c14.348 0 26.586-5.486 37.136-16.458s15.614-25.32 15.614-43.466-5.064-32.494-15.614-43.466-22.788-16.458-37.136-16.458c-14.77 0-27.008 5.486-37.136 16.036-10.128 10.972-15.192 25.32-15.192 43.466s5.064 32.916 15.192 43.466c10.128 11.816 22.366 16.88 37.136 16.88zm173.864 28.696c-18.568 0-33.76-4.642-45.576-13.504-12.238-8.862-20.678-20.256-26.586-33.76l27.852-11.394c8.862 20.678 23.632 31.228 44.732 31.228 9.706 0 17.724-2.1 23.632-6.33 6.33-4.22 9.284-9.706 9.284-16.88 0-10.972-7.596-18.146-22.788-21.944l-33.338-8.018c-10.55-2.532-20.678-8.018-29.962-15.192s-14.348-17.724-14.348-30.384c0-14.77 6.33-26.586 19.412-35.448 13.082-9.284 28.274-13.504 45.998-13.504 14.77 0 27.852 3.376 39.246 10.128s19.834 16.036 24.476 28.696l-27.008 10.972c-5.908-14.77-18.568-21.944-37.98-21.944-9.284 0-16.88 2.1-23.2 5.908s-9.284 8.862-9.284 15.614c0 9.284 7.174 16.036 21.944 19.412l32.916 7.596c15.614 3.798 27.008 9.706 34.604 18.568s10.972 18.568 10.972 29.54c0 14.77-5.908 27.43-18.146 37.136-11.816 8.44-27.43 13.504-46.842 13.504z"
-              />
-              <path
-                className="h-[2vh]"
-                // fill="#34a853"
-                fill="#ffd3a2"
-                d="M831 909.9c37.9 47.4 76.5 107 96.7 143 24.6 46.8 34.8 78.4 53.1 135 10.7 31 20.9 40.4 42.3 40.4 23.4 0 34.1-15.8 42.3-40.4 17.1-53.1 30.3-93.5 51.2-132 80.6-152 212-260 286-408 0 0 48.7-90.4 48.7-217 0-118-48-200-48-200l-572 680z"
-              />
-              <path
-                // fill="#fbbc04"
-                fill="#ffd3a2"
-                d="M637 631.9c46.1 105 134 197 194 278l318-377s-44.9 58.8-126 58.8c-90.4 0-164-72-164-163 0-62.6 37.3-106 37.3-106-234 34.8-221 91.5-260 309z"
-              />
-              <path
-                // fill="#4285f4"
-                fill="#ffd3a2"
-                d="M1153 19.6c106 34.1 196 106 250 211l-254 303s37.3-43.6 37.3-106c0-92.9-78.4-163-163-163-80.3 0-126 58.1-126 58.1 19.5-44.4 221-288 256-303z"
-              />
-              <path
-                // fill="#1a73e8"
-                fill="#ffd3a2"
-                d="M695 152.9c63.2-75.2 174-153 327-153 73.9 0 130 19.6 130 19.6l-255 303c-17.2-9.33-185-140-202-170z"
-              />
-              <path
-                // fill="#ea4335"
-                fill="#ffd3a2"
-                d="M637 631.9s-41.7-82.8-41.7-202c0-113 44.2-212 100-276l202 170-260 308z"
-              />
-            </svg>
-            <svg
-              onClick={() =>
-                window.open(
-                  "https://maps.apple.com/?address=Tirupati%20Urban,%20Tirupati,%20517504,%20Andhra%20Pradesh,%20India&auid=4090662749753956787&ll=13.689346,79.355497&lsp=9902&q=Avadhoota%20Datta%20Peetham&t=m",
-                  "_self"
-                )
-              }
-              onTouchCancel={() =>
-                window.open(
-                  "https://maps.apple.com/?address=Tirupati%20Urban,%20Tirupati,%20517504,%20Andhra%20Pradesh,%20India&auid=4090662749753956787&ll=13.689346,79.355497&lsp=9902&q=Avadhoota%20Datta%20Peetham&t=m",
-                  "_self"
-                )
-              }
-              className="w-[23vw]"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 10000 3050"
-            >
-              <path
-                id="_Maps"
-                fill="#ffd3a2"
-                d="M1393.93,402.59  c76.49-92.42,132.26-221.49,132.26-350.56c0-17.53-1.59-35.06-4.78-49.4c-125.88,4.78-277.26,84.45-368.09,191.22  c-71.71,81.27-137.04,208.74-137.04,339.41c0,19.12,3.19,38.24,4.78,44.62c11.03,2.09,22.23,3.15,33.46,3.19  C1167.66,581.05,1309.48,504.57,1393.93,402.59z M1483.17,608.14c-189.62,0-344.19,114.73-441.39,114.73  c-105.17,0-243.8-108.36-407.93-108.36c-312.32,0-629.42,258.14-629.42,745.74c0,302.76,117.92,623.05,262.92,830.2  c124.29,175.28,232.65,318.7,388.81,318.7c154.57,0,223.09-103.58,415.89-103.58c196,0,239.02,100.39,411.12,100.39  c168.91,0,282.04-156.16,388.81-309.14c119.51-175.28,168.9-347.37,172.09-355.34c-11.15-3.19-334.63-135.44-334.63-506.72  c0-321.88,254.96-466.89,269.3-478.04C1809.83,614.52,1553.28,608.14,1483.17,608.14L1483.17,608.14z M4831.69,2491.8V192.43  h-474.86l-704.31,1754.41h-12.75L2935.46,192.43h-476.45V2491.8h371.28V860.09h11.15l664.48,1631.71h280.45l664.48-1631.71H4462  V2491.8H4831.69z M5606.56,2518.89c216.71,0,428.64-113.13,525.85-296.38h7.96v269.29h382.44V1328.57  c0-339.41-272.49-560.9-691.57-560.9c-430.24,0-699.53,226.27-717.06,541.78h368.09c25.5-140.23,145.01-231.05,333.04-231.05  c195.99,0,315.5,101.98,315.5,278.85v121.11l-446.17,25.49c-411.11,25.5-642.17,205.56-642.17,505.13  C5042.47,2313.34,5279.9,2518.89,5606.56,2518.89L5606.56,2518.89z M5726.07,2219.32c-172.09,0-286.82-87.64-286.82-226.27  c0-133.85,109.95-219.9,301.16-232.65l390.4-23.9v129.07C6130.81,2069.53,5950.75,2219.32,5726.07,2219.32z M7719.95,774.04  c-245.39,0-436.61,124.29-532.22,320.29h-7.97v-291.6h-387.21v2245.2h396.77v-836.58h7.97c92.42,189.63,283.64,307.54,529.03,307.54  c423.87,0,694.76-333.03,694.76-871.63C8421.08,1107.08,8148.59,774.04,7719.95,774.04z M7598.85,2193.82  c-246.99,0-411.12-215.11-412.71-546.56c1.59-328.25,165.72-546.56,412.71-546.56c256.54,0,415.89,213.53,415.89,546.56  C8014.74,1981.89,7855.39,2193.82,7598.85,2193.82z M8596.8,1287.14c0,250.17,162.54,409.52,486.01,481.23l280.45,62.14  c176.88,39.84,237.43,97.21,237.43,199.19c0,125.88-119.51,205.56-312.32,205.56c-200.78,0-313.91-82.87-344.19-246.99h-390.4  c31.87,326.66,293.2,537,734.59,537c414.3,0,707.5-215.12,707.5-533.82c0-245.39-135.44-380.84-486.01-458.92l-280.45-62.14  c-176.87-39.84-246.99-106.76-246.99-203.97c0-124.29,116.33-207.15,291.61-207.15c183.25,0,296.39,97.21,312.32,250.18h369.69  c-9.57-320.29-270.89-541.78-682.01-541.78C8866.1,767.67,8596.8,978.01,8596.8,1287.14L8596.8,1287.14z"
-              />
-            </svg>
-          </div>
-        </div>
 
-        <div
-          style={ani.container ? { animation: "fade 1s" } : { opacity: 0 }}
-          className="flex align-middle justify-center relative"
-        >
-          <Image
-            alt="decoration"
-            className="h-[30vh] w-[60vw]"
-            src={logo}
-          ></Image>
-          <h1 className=" alata w-full text-[4.2vmin] text-[#ffd3a2] text-center top-[12vh] absolute">
-            AVADHOOTHA DATTA PEETHAM, TIRUMALA
-          </h1>
+          <div
+            style={ani.container ? { animation: "fade 2s" } : { opacity: 0 }}
+            className="flex align-middle justify-center relative"
+          >
+            <Image
+              alt="decoration"
+              className="h-[30vh] w-[60vw]"
+              src={logo}
+            ></Image>
+            <div className=" alata w-full text-[4.2vmin] text-[#ffd3a2] text-center top-[10vh] absolute">
+              <h1
+                style={
+                  ani.container ? { animation: "bounce 0.6s" } : { opacity: 0 }
+                }
+                className="text-[#fbb86b]"
+              >
+                CONTACT DETAILS
+              </h1>
+              <div className="flex justify-evenly mt-[1.5vh] gap-[6vw]">
+                <h1
+                  style={
+                    ani.inner ? { animation: "flip 0.6s" } : { opacity: 0 }
+                  }
+                  onClick={() =>
+                    window.open(
+                      `tel:+91${props.arch ? "9535802983" : "9849199983"}`,
+                      "_self"
+                    )
+                  }
+                  onTouchCancel={() =>
+                    window.open(
+                      `tel:+91${props.arch ? "9535802983" : "9849199983"}`,
+                      "_self"
+                    )
+                  }
+                  className="text-[3.8vmin] mt-[0.7vh]"
+                >
+                  {props.arch ? "9535802983" : "9849199983"}
+                </h1>
+                <svg
+                  style={
+                    ani.inner ? { animation: "flipz 0.6s" } : { opacity: 0 }
+                  }
+                  onClick={() =>
+                    window.open(
+                      `https://wa.me/91${
+                        props.arch ? "9535802983" : "9849199983"
+                      }?text=HI,%20I%20have%20A%20doubt%20regarding`,
+                      "_self"
+                    )
+                  }
+                  onTouchCancel={() =>
+                    window.open(
+                      "https://wa.me/919849199983?text=HI,%20I%20have%20A%20doubt%20regarding",
+                      "_self"
+                    )
+                  }
+                  className="h-[4vh]"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 497.445 147.152"
+                >
+                  <path
+                    fill="#ffd3a2"
+                    d="M487.029 87.874c-.283 1.418-.779 2.623-1.453 3.686-.672 1.062-1.559 1.914-2.691 2.586-1.1.639-2.48.992-4.111.992-1.594 0-2.977-.318-4.074-.992a8.276 8.276 0 0 1-2.729-2.586c-.674-1.062-1.17-2.268-1.488-3.686a19.424 19.424 0 0 1-.461-4.287c0-1.488.143-2.977.426-4.357.283-1.418.779-2.658 1.453-3.721.672-1.1 1.559-1.949 2.691-2.657 1.1-.674 2.481-1.028 4.111-1.028 1.594 0 2.941.354 4.039 1.028a8.605 8.605 0 0 1 2.729 2.692c.709 1.098 1.205 2.373 1.523 3.756.318 1.417.461 2.834.461 4.287s-.143 2.87-.426 4.287zm9.426-11.444c-.674-2.374-1.665-4.429-3.012-6.236-1.383-1.771-3.083-3.225-5.138-4.287-2.056-1.063-4.535-1.63-7.405-1.63-2.268 0-4.324.461-6.201 1.347-1.879.886-3.438 2.338-4.643 4.287h-.141v-4.642h-9.496v49.145h9.992V97.157h.141a11.945 11.945 0 0 0 4.678 4.04c1.914.921 3.969 1.382 6.236 1.382 2.658 0 4.996-.531 7.016-1.559a14.92 14.92 0 0 0 4.996-4.146c1.347-1.736 2.338-3.721 2.977-5.988.674-2.268.992-4.605.992-7.051 0-2.586-.318-5.066-.992-7.441v.036zm-49.287 11.444c-.283 1.418-.779 2.623-1.453 3.686s-1.559 1.914-2.693 2.586c-1.098.639-2.48.992-4.109.992-1.596 0-2.941-.318-4.076-.992a8.295 8.295 0 0 1-2.729-2.586c-.672-1.062-1.168-2.268-1.486-3.686a19.305 19.305 0 0 1-.461-4.287c0-1.488.141-2.977.424-4.357.285-1.418.779-2.658 1.453-3.721.674-1.1 1.559-1.949 2.693-2.657 1.098-.674 2.48-1.028 4.109-1.028 1.596 0 2.941.354 4.041 1.028a8.589 8.589 0 0 1 2.727 2.692c.709 1.098 1.205 2.373 1.525 3.756.318 1.417.459 2.834.459 4.287s-.141 2.87-.424 4.287zm6.412-17.68c-1.346-1.771-3.082-3.225-5.137-4.287-2.055-1.063-4.535-1.63-7.406-1.63-2.268 0-4.322.461-6.201 1.347-1.877.886-3.436 2.338-4.641 4.287h-.143v-4.642h-9.496v49.145h9.992V97.157h.143a11.945 11.945 0 0 0 4.678 4.04c1.912.921 3.967 1.382 6.234 1.382 2.693 0 4.996-.531 7.018-1.559a14.933 14.933 0 0 0 4.994-4.146c1.348-1.736 2.34-3.721 3.014-5.988a25.9 25.9 0 0 0 .992-7.051c0-2.586-.32-5.066-.992-7.441-.674-2.373-1.666-4.429-3.049-6.235v.035zm-65.764 12.047l6.555-18.461h.142l6.343 18.461h-13.04zm1.063-30.862l-19.027 50.278h11.126l3.934-11.196h18.814l3.791 11.196h11.48l-18.814-50.278h-11.339.035zm-19.842 34.334c-.674-1.134-1.524-2.126-2.622-2.905-1.063-.779-2.304-1.383-3.686-1.878a53.25 53.25 0 0 0-4.252-1.204c-1.417-.32-2.799-.639-4.146-.922s-2.587-.603-3.614-.957c-1.062-.354-1.913-.814-2.551-1.382-.674-.567-.992-1.275-.992-2.196 0-.744.177-1.347.566-1.808.39-.46.851-.779 1.382-1.027.532-.248 1.134-.39 1.808-.46a17.49 17.49 0 0 1 1.842-.106c1.772 0 3.331.354 4.643 1.027 1.311.673 2.055 1.984 2.161 3.897h9.496c-.178-2.268-.779-4.11-1.736-5.599s-2.161-2.657-3.614-3.543-3.118-1.523-4.961-1.913c-1.842-.39-3.756-.567-5.74-.567-1.983 0-3.897.178-5.775.531-1.878.354-3.578.957-5.066 1.843-1.523.886-2.729 2.056-3.614 3.543-.922 1.488-1.382 3.438-1.382 5.775 0 1.595.318 2.941.992 4.039.638 1.1 1.523 2.02 2.586 2.764 1.099.709 2.304 1.312 3.686 1.772s2.799.851 4.252 1.169c3.579.744 6.343 1.488 8.362 2.232 1.984.744 2.977 1.878 2.977 3.366 0 .886-.213 1.63-.638 2.232a4.702 4.702 0 0 1-1.595 1.417c-.638.354-1.347.603-2.126.779a9.96 9.96 0 0 1-2.232.248c-.992 0-1.949-.105-2.835-.354-.921-.248-1.736-.604-2.444-1.099-.709-.496-1.276-1.134-1.736-1.913-.461-.779-.674-1.701-.674-2.764h-9.496c.106 2.444.639 4.464 1.666 6.094.992 1.631 2.303 2.906 3.862 3.898 1.559.992 3.366 1.7 5.386 2.125 2.02.426 4.074.639 6.2.639 2.056 0 4.11-.213 6.095-.604 1.984-.389 3.756-1.098 5.315-2.09 1.559-.992 2.799-2.303 3.756-3.898.956-1.629 1.452-3.613 1.452-6.023 0-1.7-.318-3.117-.992-4.252l.034.074zm-41.351-31.357h-9.992v10.913h-6.06v6.696h6.06v21.473c0 1.843.318 3.296.921 4.429.603 1.135 1.453 1.984 2.516 2.623 1.063.602 2.269 1.027 3.65 1.24a29.21 29.21 0 0 0 4.394.318c.992 0 1.984-.035 3.047-.07a20.926 20.926 0 0 0 2.799-.284v-7.76a9.37 9.37 0 0 1-1.487.212 23.67 23.67 0 0 1-1.63.071c-1.701 0-2.8-.283-3.366-.851-.567-.566-.851-1.701-.851-3.365V71.965h7.334v-6.696h-7.334V54.356zM299.02 87.591c0 .566-.07 1.311-.177 2.268a6.95 6.95 0 0 1-.957 2.764c-.531.922-1.311 1.701-2.409 2.375-1.062.672-2.622.992-4.57.992-.78 0-1.56-.072-2.339-.213-.744-.143-1.417-.391-1.984-.744-.567-.355-.992-.815-1.347-1.453-.318-.602-.496-1.346-.496-2.268 0-.957.178-1.701.496-2.338.319-.604.779-1.1 1.312-1.524.531-.39 1.169-.708 1.913-.956s1.453-.426 2.232-.568a49.76 49.76 0 0 1 2.409-.354c.815-.106 1.56-.213 2.304-.354s1.417-.319 2.055-.531 1.169-.496 1.595-.886v3.721l-.037.069zm9.992 5.988V74.622c0-2.196-.496-3.968-1.487-5.314-.992-1.347-2.269-2.374-3.792-3.118-1.559-.744-3.26-1.24-5.138-1.523a42.374 42.374 0 0 0-5.562-.39c-2.021 0-4.04.213-6.024.603-1.983.39-3.791 1.062-5.386 2.02a12.351 12.351 0 0 0-3.933 3.721c-1.027 1.559-1.63 3.507-1.771 5.846h9.992c.177-1.983.85-3.365 1.983-4.216 1.135-.851 2.658-1.275 4.643-1.275.886 0 1.735.07 2.516.177a5.43 5.43 0 0 1 2.055.709c.603.354 1.063.85 1.418 1.488.354.638.531 1.487.531 2.586.035 1.027-.248 1.808-.922 2.374-.673.531-1.559.957-2.692 1.24s-2.409.496-3.862.638-2.941.319-4.429.567c-1.488.248-2.977.566-4.465.956s-2.8.992-3.934 1.808c-1.169.814-2.09 1.877-2.834 3.188-.744 1.347-1.099 3.048-1.099 5.103 0 1.878.318 3.508.957 4.854a9.203 9.203 0 0 0 2.622 3.367 11.44 11.44 0 0 0 3.933 1.984c1.488.425 3.118.637 4.854.637 2.268 0 4.465-.318 6.626-.992a13.265 13.265 0 0 0 5.634-3.436c.035.602.142 1.203.248 1.807.106.566.283 1.169.461 1.736h10.134c-.461-.744-.815-1.879-.992-3.367a39.905 39.905 0 0 1-.284-4.712v-.109zM267.84 68.422c-.992-1.275-2.339-2.303-4.039-3.012-1.701-.744-3.897-1.099-6.591-1.099-1.878 0-3.791.496-5.775 1.453s-3.579 2.516-4.854 4.606h-.213V51.414h-9.992v50.279h9.992V82.595c0-3.721.603-6.378 1.843-8.008 1.205-1.63 3.189-2.409 5.917-2.409 2.374 0 4.075.744 4.996 2.231.922 1.488 1.418 3.721 1.418 6.732v20.552h9.992V79.3c0-2.268-.213-4.322-.603-6.165s-1.099-3.437-2.091-4.713zm-52.831 17.646h-.142l-8.574-34.653h-10.347l-8.717 34.228h-.142l-7.973-34.228H168.06l13.322 50.279h11.197l8.362-34.229h.142l8.504 34.229h10.984l6.023-22.323 7.512-27.956h-10.843l-8.254 34.653z"
+                  />
+                  <path
+                    fill="#ffd3a2"
+                    d="M74.34 131.953c-12.225 0-23.634-3.685-33.165-9.956l-23.174 7.404 7.512-22.393c-7.228-9.922-11.479-22.146-11.479-35.327 0-33.236 27.035-60.271 60.271-60.271s60.271 27.035 60.271 60.271c0 33.235-27.035 60.271-60.271 60.271h.035zM74.34 0C34.76 0 2.659 32.104 2.659 71.682c0 13.535 3.756 26.22 10.275 37.027L.001 147.154l39.686-12.72a71.502 71.502 0 0 0 34.653 8.929c39.579 0 71.681-32.102 71.681-71.681C146.02 32.104 113.919 0 74.34 0z"
+                  />
+                  {/* <linearGradient
+                  id="a"
+                  x1="-16132.404"
+                  x2="-16132.404"
+                  y1="481239.094"
+                  y2="484641.094"
+                  gradientTransform="translate(-418.003 -816.133) scale(.0013)"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop offset="0" stop-color="#ffd4a200" />
+                  <stop offset=".231" stop-color="#ffd4a200" />
+                  <stop offset=".522" stop-color="#ffd4a200" />
+                  <stop offset=".812" stop-color="#ffd4a200" />
+                  <stop offset="1" stop-color="#ffd4a200" />
+                </linearGradient> */}
+                  <path
+                    fill="url(#a)"
+                    d="M74.34 11.41c-33.236 0-60.271 27.035-60.271 60.271 0 13.181 4.252 25.405 11.48 35.327l-7.512 22.393 23.173-7.404c9.531 6.307 20.905 9.956 33.165 9.956 33.236 0 60.271-27.036 60.271-60.271 0-33.236-27.035-60.271-60.271-60.271h-.035z"
+                  />
+                  <path
+                    fill="#ffd3a2"
+                    d="M57.509 42.025c-1.169-2.799-2.055-2.905-3.826-2.977a34.047 34.047 0 0 0-2.02-.07c-2.304 0-4.713.673-6.166 2.161-1.771 1.807-6.165 6.023-6.165 14.669s6.307 17.008 7.157 18.178c.886 1.168 12.296 19.168 30.012 26.504 13.854 5.74 17.965 5.208 21.118 4.535 4.606-.992 10.382-4.395 11.835-8.504 1.453-4.111 1.453-7.619 1.027-8.363-.425-.744-1.595-1.168-3.366-2.055-1.771-.886-10.382-5.138-12.012-5.705-1.595-.602-3.118-.389-4.322 1.312-1.701 2.374-3.366 4.784-4.713 6.236-1.063 1.134-2.8 1.276-4.252.673-1.949-.814-7.405-2.729-14.138-8.717-5.209-4.641-8.752-10.416-9.779-12.152-1.028-1.771-.106-2.8.708-3.756.886-1.099 1.736-1.878 2.622-2.906.886-1.027 1.382-1.559 1.949-2.764.603-1.169.177-2.374-.248-3.26-.425-.886-3.968-9.532-5.421-13.039z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

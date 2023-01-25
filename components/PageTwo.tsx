@@ -5,12 +5,9 @@ import { useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import logo from '../public/logos.png'
-import { useStopwatch } from "react-timer-hook";
-export default function Home() {
-    const { seconds, minutes, pause, start } = useStopwatch({
-      autoStart: false,
-    });
+export default function Home(props) {
   const router = usePathname();
+  const [ani, setAni] = useState({});
     const [s, setS] = useState(0);
     const { ref, inView } = useInView({
       threshold: 0,
@@ -18,22 +15,31 @@ export default function Home() {
     useMemo(() => {
         if(inView)
         {
-            start();
             setS((i) => i + 1);
         }
         else {
-            pause();
         }
     }, [inView]);
 
   return (
     <div className="h-full relative w-[100vw] overflow-hidden antialiased scrolls">
       <svg
+        onAnimationStart={() => {
+          setAni((i) => {
+            console.log(i, "ended");
+            return { ...i, svg: 1 };
+          });
+        }}
         style={
-          (minutes > 0 && inView) || (seconds > 1 && inView)
+          ani.inner && inView
             ? {
                 animation: "spinner 35s linear infinite",
                 WebkitAnimation: "spinner 35s linear infinite",
+              }
+            : inView
+            ? {
+                animation: "fade 0.5s",
+                WebkitAnimation: "fade 0.5s",
               }
             : {}
         }
@@ -64,10 +70,15 @@ export default function Home() {
       </svg>
       <svg
         style={
-          (minutes > 0 && inView) || (seconds > 1 && inView)
+          ani.inner && inView
             ? {
                 animation: "spinner 35s linear infinite",
                 WebkitAnimation: "spinner 35s linear infinite",
+              }
+            : inView
+            ? {
+                animation: "fade 0.5s",
+                WebkitAnimation: "fade 0.5s",
               }
             : {}
         }
@@ -1067,32 +1078,31 @@ export default function Home() {
         </g>
       </svg>
       <div
+        onAnimationEnd={() => {
+          setAni((i) => {
+            return { ...i, container: 1 };
+          });
+        }}
         style={
-          s && inView
+          ani.svg && inView
             ? {
-                animation: "open 1s",
-                boxShadow: "0px 0px 2vmin 2vmin rgba(0, 0, 0, 0.802)",
-              }
-            : s
-            ? { animation: "open 1s" }
-            : { opacity: 0 }
+              animation: "open 1s",
+              boxShadow: "0px 0px 2vmin 2vmin rgba(0, 0, 0, 0.802)",
+            }
+            : ani.svg
+              ? { animation: "open 1s" }
+              : { opacity: 0 }
         }
         className="z-20 h-full absolute w-[75vw] overflow-hidden bg-[#05112d] left-[12vw] flex flex-col pr-[0.8vmin] pl-[0.8vmin] pt-[5vh] gap-[4vh]"
       >
         <div
           className=" alata w-full text-[4.2vmin] text-[#ffd3a2] text-center"
-          style={
-            minutes > 0 || seconds > 1
-              ? { animation: "fade 1s" }
-              : { opacity: 0 }
-          }
+          style={ani.inner ? { animation: "fade 1s" } : { opacity: 0 }}
         >
           {router[1] ? (
             <h2>
               HI{" "}
-              {router.slice(1).toUpperCase().split("-")[1]
-                ? router.slice(1).toUpperCase().split("-").join(" ")
-                : router.slice(1).toUpperCase()}
+              {props.name}
               ,
             </h2>
           ) : (
@@ -1102,8 +1112,13 @@ export default function Home() {
         </div>
 
         <div className="alex w-full text-[13vmin] text-[#ffd3a2] text-center flex flex-col gap-[2.5vh]">
-          {minutes > 0 || seconds > 0 ? (
+          {ani.container ? (
             <h1
+              onAnimationEnd={() => {
+                setAni((i) => {
+                  return { ...i, inner: 1 };
+                });
+              }}
               className="prasanth"
               style={{ animation: "pra 1.2s", height: "5vh" }}
             >
@@ -1114,14 +1129,14 @@ export default function Home() {
           )}
           <h1
             style={
-              minutes > 0 || seconds > 1
+              ani.inner
                 ? { animation: "fade 1s", height: "5vh" }
                 : { opacity: 0 }
             }
           >
             &
           </h1>
-          {minutes > 0 || seconds > 0 ? (
+          {ani.container ? (
             <h1
               className="archana"
               style={{ animation: "arc 1.2s ", height: "5vh" }}
@@ -1134,24 +1149,16 @@ export default function Home() {
         </div>
         <div
           className=" alata w-full text-[4.2vmin] text-[#ffd3a2] text-center mt-[3vh]"
-          style={
-            minutes > 0 || seconds > 1
-              ? { animation: "fade 0.5s" }
-              : { opacity: 0 }
-          }
+          style={ani.inner ? { animation: "fade 0.5s" } : { opacity: 0 }}
         >
           <h2>FEBRUARY</h2>
           <div className="flex mt-[0.5vh]">
             <div
-              style={
-                minutes > 0 || seconds > 1 ? { animation: "pru 0.5s" } : {}
-              }
+              style={ani.inner ? { animation: "pru 0.5s" } : {}}
               className="border ml-[6vw] w-[22vw]"
             ></div>
             <div
-              style={
-                minutes > 0 || seconds > 1 ? { animation: "pru 0.5s" } : {}
-              }
+              style={ani.inner ? { animation: "pru 0.5s" } : {}}
               className="border ml-[17vw] w-[26vw]"
             ></div>
           </div>
@@ -1164,15 +1171,11 @@ export default function Home() {
           </div>
           <div className="flex mt-[1vh] mb-[0.5vh]">
             <div
-              style={
-                minutes > 0 || seconds > 1 ? { animation: "arch 0.5s" } : {}
-              }
+              style={ani.inner ? { animation: "arch 0.5s" } : {}}
               className="border ml-[6vw] w-[22vw]"
             ></div>
             <div
-              style={
-                minutes > 0 || seconds > 1 ? { animation: "arch 0.5s" } : {}
-              }
+              style={ani.inner ? { animation: "arch 0.5s" } : {}}
               className="border ml-[17vw] w-[26vw]"
             ></div>
           </div>
@@ -1180,11 +1183,7 @@ export default function Home() {
         </div>
         <div
           ref={ref}
-          style={
-            minutes > 0 || seconds > 1
-              ? { animation: "fade 1s" }
-              : { opacity: 0 }
-          }
+          style={ani.inner ? { animation: "fade 1s" } : { opacity: 0 }}
           className="flex align-middle justify-center relative"
         >
           <Image
@@ -1196,7 +1195,7 @@ export default function Home() {
             AVADHOOTHA DATTA PEETHAM, TIRUMALA
           </h1>
         </div>
-      </div>
+      </div> 
     </div>
   );
 }
