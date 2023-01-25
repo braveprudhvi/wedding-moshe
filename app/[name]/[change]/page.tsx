@@ -14,18 +14,16 @@ const PageThree = lazy(() => import("components/PageThree"));
 
 export default function Home() {
   let a = 1;
-  const pathName = usePathname()?.slice(1).toUpperCase();
-  let propsPath: String | undefined;
+  const pathName = usePathname()?.slice(1).toUpperCase().split('/');
+  let propsPath: String;
   let arch = false;
-  let pathArr = pathName
-  if (pathName === 'A') {
-    arch = true
-    propsPath = undefined;
-  }
-  else
-  {
+  // let pathArr = pathName?.slice(1).toUpperCase().split("-");
+  if (pathName[0] === "A") {
+    arch = true;
+    propsPath = pathName[1].split("-").join(" ");
+  } else {
     arch = false;
-    propsPath = pathName?.split('-').join(" ");
+   propsPath = pathName[1].split("-").join(" ");
   }
   const height = use100vh();
   const h = height ? `${height}px` : "100vh";
@@ -36,8 +34,8 @@ export default function Home() {
     >
       <PageOne></PageOne>
       <Suspense fallback={<div>Loading...</div>}>
-      <PageTwo name={propsPath}></PageTwo>
-      <PageThree arch={arch}></PageThree>
+        <PageTwo name={propsPath}></PageTwo>
+        <PageThree arch={arch}></PageThree>
       </Suspense>
     </div>
   );

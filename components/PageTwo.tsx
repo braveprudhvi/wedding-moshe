@@ -1099,7 +1099,7 @@ export default function Home(props) {
           className=" alata w-full text-[4.2vmin] text-[#ffd3a2] text-center"
           style={ani.inner ? { animation: "fade 1s" } : { opacity: 0 }}
         >
-          {router[1] ? (
+          {props.name ? (
             <h2>
               HI{" "}
               {props.name}

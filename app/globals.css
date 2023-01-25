@@ -117,6 +117,23 @@ img {
     opacity: 1;
   }
 }
+@keyframes text {
+  0% {
+    color:#ff9925;
+  }
+  25%{
+    color:#f8a444;
+  }
+   50%{
+    color:#fbb566;
+  }
+  75%{
+    color: #f6cc9b;
+  }
+  100% {
+    color:#f9e5ce
+  }
+}
 @keyframes open {
   0% {
     transform: rotateY(90deg);

@@ -1085,7 +1085,7 @@ export default function Home(props) {
             });
           }}
           style={{ animation: "open 0.7s" }}
-          className="shadow z-20 h-full absolute w-[75vw] overflow-hidden bg-[#05112d] left-[12vw] flex flex-col pr-[0.8vmin] pl-[0.8vmin] pt-[4vh] gap-[6vh]"
+          className="shadow z-20 h-full absolute w-[75vw] overflow-hidden bg-[#05112d] left-[12vw] flex flex-col pr-[0.8vmin] pl-[0.8vmin] pt-[3vh] gap-[3vh]"
         >
           <div className=" alata w-full text-[6vmin] text-[#fbb86b] text-center">
             <h1
@@ -1426,6 +1426,23 @@ export default function Home(props) {
       ) : (
         <></>
       )}
+      <div
+        className="z-[100] alata w-full text-[3.5vmin] text-[#ffd3a2] text-center absolute bottom-[1vh]"
+        onClick={() =>
+          window.open(`https://www.instagram.com/braveprudhvi/`, "_self")
+        }
+      >
+        <h2>&#169; Created & Maintained by</h2>
+        <h2
+          style={{
+            animation: "text 5s infinite",
+            animationDirection: "alternate-reverse",
+          }}
+          className="text-[#ffd3a2]"
+        >
+          Prudhvi {props.arch ? "" : "( Sunny )"}
+        </h2>
+      </div>
     </div>
   );
 }
