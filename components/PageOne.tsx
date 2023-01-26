@@ -3,18 +3,16 @@ import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useStopwatch } from "react-timer-hook";
-import useReactIpLocation from "react-ip-details";
+
 export default function Home() {
    const { seconds, minutes, pause, start } = useStopwatch({ autoStart: true });
   const [s, setS] = useState(0);
-  const geo = useReactIpLocation();
+  
   // console.log(geo);
   const { ref, inView } = useInView({
     threshold: 0,
   });
-  useEffect(() => {
-    if (geo.ipResponse) setS(geo.ipResponse.city);
-  }, [geo.ipResponse]);
+  
   useMemo(() => {
     if (inView) {
       start();
@@ -2339,7 +2337,7 @@ export default function Home() {
               : { opacity: 0 }
           }
         >
-          SAVE THE DATE {s}
+          SAVE THE DATE
         </h2>
 
         <div className="alex w-full text-[12vmin] text-[#ffd3a2] text-center flex">
@@ -2376,7 +2374,7 @@ export default function Home() {
               : { opacity: 0 }
           }
         >
-          22.02.2023 08:30 PM - RECEPTION
+          RECEPTION - 22.02.2023 8 PM ONWARDS
         </h2>
       </div>
     </div>

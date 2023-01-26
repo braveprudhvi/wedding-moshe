@@ -1,11 +1,13 @@
 "use client";
 import { useInView } from "react-intersection-observer";
 import { motion } from "framer-motion";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import logo from '../public/logos.png'
+import useReactIpLocation from "react-ip-details";
 export default function Home(props) {
+  const { ipResponse } = useReactIpLocation();
   const router = usePathname();
   const [ani, setAni] = useState({});
     const [s, setS] = useState(0);
@@ -15,6 +17,23 @@ export default function Home(props) {
    const { ref:ref2, inView:inView2 } = useInView({
      threshold: 0,
    });
+  useEffect(() => {
+    const getting =async ()=>{
+    if (ipResponse) {
+      const fullData = await fetch("/api/visitor", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify([
+          { name: props.name ? props.name : "someone", ip: ipResponse.IPv4,city:ipResponse.city },
+        ]),
+      });
+      console.log(ipResponse);
+      }
+    }
+    getting();
+  }, [ipResponse?.city]);
     useMemo(() => {
         if(inView2)
         {
