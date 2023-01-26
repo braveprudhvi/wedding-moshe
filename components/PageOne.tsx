@@ -2371,7 +2371,7 @@ export default function Home() {
               : { opacity: 0 }
           }
         >
-          22.02.2023 RECEPTION
+          22.02.2023 08:30 PM - RECEPTION
         </h2>
       </div>
     </div>

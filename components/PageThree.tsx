@@ -29,15 +29,15 @@ export default function Home(props) {
           });
         }}
         style={
-          inView && ani.svg
+          inView && ani.inside
             ? {
                 animation: "spinner 35s linear infinite",
                 WebkitAnimation: "spinner 35s linear infinite",
               }
             : inView
             ? {
-                animation: "fade 0.5s",
-                WebkitAnimation: "fade 0.5s",
+                animation: "fade 1s",
+                WebkitAnimation: "fade 1s",
               }
             : { opacity: 0 }
         }
@@ -69,7 +69,7 @@ export default function Home(props) {
       <svg
         ref={ref}
         style={
-          inView && ani.svg
+          inView && ani.inside
             ? {
                 animation: "spinner 35s linear infinite",
                 WebkitAnimation: "spinner 35s linear infinite",
@@ -1103,6 +1103,11 @@ export default function Home(props) {
             </h1>
             <div className="flex text-[9vmin] gap-[4vw] align-middle text-[#ffd3a2] justify-center">
               <div
+                onAnimationEnd={() => {
+                  setAni((i) => {
+                    return { ...i, inside: 1 };
+                  });
+                }}
                 style={ani.inner ? { animation: "flipi 0.6s" } : { opacity: 0 }}
               >
                 <h2 suppressHydrationWarning={true} className="text-[#ffd3a2]">

@@ -12,18 +12,22 @@ export default function Home(props) {
     const { ref, inView } = useInView({
       threshold: 0,
     });
+   const { ref:ref2, inView:inView2 } = useInView({
+     threshold: 0,
+   });
     useMemo(() => {
-        if(inView)
+        if(inView2)
         {
             setS((i) => i + 1);
         }
         else {
         }
-    }, [inView]);
+    }, [inView2]);
 
   return (
     <div className="h-full relative w-[100vw] overflow-hidden antialiased scrolls">
       <svg
+        ref={ref2}
         onAnimationStart={() => {
           setAni((i) => {
             console.log(i, "ended");
@@ -31,12 +35,12 @@ export default function Home(props) {
           });
         }}
         style={
-          ani.inner && inView
+          ani.inner && inView2
             ? {
                 animation: "spinner 35s linear infinite",
                 WebkitAnimation: "spinner 35s linear infinite",
               }
-            : inView
+            : inView2
             ? {
                 animation: "fade 0.5s",
                 WebkitAnimation: "fade 0.5s",
@@ -1077,8 +1081,8 @@ export default function Home(props) {
           ></path>
         </g>
       </svg>
-      <div
-        onAnimationEnd={() => {
+      {ani.svg?<div
+        onAnimationStart={() => {
           setAni((i) => {
             return { ...i, container: 1 };
           });
@@ -1167,7 +1171,7 @@ export default function Home(props) {
             <h2 className="ml-[2vw] text-[10vmin] absolute left-[28vw] top-[-2.4vh]">
               23
             </h2>
-            <h2 className="ml-[17vw] ">AT 3:30 AM</h2>
+            <h2 className="ml-[17vw] ">AT 3:38 AM</h2>
           </div>
           <div className="flex mt-[1vh] mb-[0.5vh]">
             <div
@@ -1195,7 +1199,7 @@ export default function Home(props) {
             AVADHOOTHA DATTA PEETHAM, TIRUMALA
           </h1>
         </div>
-      </div> 
+      </div>:<></>} 
     </div>
   );
 }
