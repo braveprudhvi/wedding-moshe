@@ -1,15 +1,20 @@
 "use client";
 import { motion } from "framer-motion";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useStopwatch } from "react-timer-hook";
+import useReactIpLocation from "react-ip-details";
 export default function Home() {
    const { seconds, minutes, pause, start } = useStopwatch({ autoStart: true });
   const [s, setS] = useState(0);
-  
+  const geo = useReactIpLocation();
+  // console.log(geo);
   const { ref, inView } = useInView({
     threshold: 0,
   });
+  useEffect(() => {
+    if (geo.ipResponse) setS(geo.ipResponse.city);
+  }, [geo.ipResponse]);
   useMemo(() => {
     if (inView) {
       start();
@@ -2334,7 +2339,7 @@ export default function Home() {
               : { opacity: 0 }
           }
         >
-          SAVE THE DATE
+          SAVE THE DATE {s}
         </h2>
 
         <div className="alex w-full text-[12vmin] text-[#ffd3a2] text-center flex">
