@@ -20,7 +20,7 @@ export default function Home(props) {
   useEffect(() => {
     const getting =async ()=>{
     if (ipResponse) {
-      const fullData = await fetch("/api/visitor", {
+      await fetch("/api/visitor", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -30,6 +30,9 @@ export default function Home(props) {
         ]),
       });
       console.log(ipResponse);
+      const fullData = await fetch("/api/visitor");
+      const Dat:{message:[]} = await fullData.json();
+      console.table(Dat.message.reverse())
       }
     }
     getting();
