@@ -74,7 +74,7 @@ export default function Home(props) {
       </svg>
       <svg
         style={
-          ani.inner && inView
+          ani.inner && inView2
             ? {
                 animation: "spinner 35s linear infinite",
                 WebkitAnimation: "spinner 35s linear infinite",
