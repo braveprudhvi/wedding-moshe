@@ -19,7 +19,7 @@ export default function Home(props) {
     
   }, [])
   useEffect(() => {
-    if (seconds === 7 && minutes === 0 && props.refs.re1) {
+    if (seconds === 9 && minutes === 0 && props.refs.re1) {
       props.refs.ref2.current.scrollIntoView();
     }
   },[seconds])
