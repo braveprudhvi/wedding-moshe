@@ -31,10 +31,6 @@ export default function Home(props) {
           { name: props.name ? props.name : "someone", ip: ipResponse.IPv4,city:ipResponse.city },
         ]),
       });
-      console.log(ipResponse);
-      const fullData = await fetch("/api/visitor");
-      const Dat:{message:[]} = await fullData.json();
-      console.table(Dat.message.reverse())
       }
     }
     getting();

@@ -50,6 +50,10 @@ body {
 .fadein {
   animation: fade 1s 5.5s, delay 11s;
 }
+.tables, th,td{
+  border: 0.5vmin solid #000000;
+  height: 5vh;
+}
 .rotate{
   border: 1vmin solid #f6cc9b;
   border-radius: 2vmin;
