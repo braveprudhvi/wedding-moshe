@@ -1,5 +1,5 @@
 "use client";
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import Image from "next/image";
 import { use100vh } from "react-div-100vh";
 import { Inter } from "@next/font/google";
@@ -13,7 +13,7 @@ const PageThree = lazy(() => import("components/PageThree"));
 // import from='"./page.ubsets: ['latin'] })
 
 export default function Home() {
-  let a = 1;
+ const [refs, setRef] = useState({ re1: true, re2: true });
   const pathName = usePathname()?.slice(1).toUpperCase();
   let propsPath: String | undefined;
   let arch = false;
@@ -28,17 +28,42 @@ export default function Home() {
     propsPath = pathName?.split('-').join(" ");
   }
   const height = use100vh();
+  let ratio = 1.65;
+    useEffect(() => {
+      ratio = height / window.outerWidth;
+    }, [height]);
   const h = height ? `${height}px` : "100vh";
-  return (
-    <div
-      style={{ height: h }}
-      className=" relative w-full  overflow-auto snaps"
-    >
-      <PageOne></PageOne>
-      <Suspense fallback={<div>Loading...</div>}>
-      <PageTwo name={propsPath}></PageTwo>
-      <PageThree arch={arch}></PageThree>
-      </Suspense>
-    </div>
+  return height ? (
+    ratio > 1.64 ? (
+      <div
+        style={{ height: h }}
+        className=" relative w-full  overflow-auto snaps"
+      >
+        <PageOne refs={refs} setRef={setRef}></PageOne>
+        <Suspense fallback={<div>Loading...</div>}>
+          <PageTwo refs={refs} setRef={setRef} name={propsPath}></PageTwo>
+          <PageThree refs={refs} setRef={setRef} arch={arch}></PageThree>
+        </Suspense>
+      </div>
+    ) : (
+      <div
+        style={{ height: h }}
+        className=" text-[#ffd3a2] text-[4vmin] flex flex-col align-middle justify-center"
+      >
+        <div className="rotate w-[40vmin] h-[20vmin] mt-[20vh] self-center"></div>
+        <h1 className="text-[#fa9725] flex flex-col h-[30vh] text-center pl-[5vmin] pr-[5vmin] mt-[10vh]">
+          This website is only built for Potrait,
+          <span className="mt-[2vh] text-[#ffd3a2]">
+            Kindly Rotate the screen to potrait{" "}
+          </span>
+          or
+          <span className="text-[#ffd3a2]">Open it in a mobile</span>
+          or
+          <span className="text-[#ffd3a2]">reduce the width.</span>
+        </h1>
+      </div>
+    )
+  ) : (
+    <></>
   );
 }

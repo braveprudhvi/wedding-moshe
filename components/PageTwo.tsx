@@ -1,7 +1,7 @@
 "use client";
 import { useInView } from "react-intersection-observer";
 import { motion } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import logo from '../public/logos.png'
@@ -10,15 +10,17 @@ export default function Home(props) {
   const { ipResponse } = useReactIpLocation();
   const router = usePathname();
   const [ani, setAni] = useState({});
-    const [s, setS] = useState(0);
+  const [s, setS] = useState(0);
+  const myRef = useRef(null);
     const { ref, inView } = useInView({
       threshold: 0,
     });
    const { ref:ref2, inView:inView2 } = useInView({
      threshold: 0,
    });
-  useEffect(() => {
-    const getting =async ()=>{
+   useEffect(() => {
+     props.setRef({ ...props.refs, ref2: myRef });
+     const getting = async () => {
     if (ipResponse) {
       await fetch("/api/visitor", {
         method: "POST",
@@ -47,7 +49,7 @@ export default function Home(props) {
     }, [inView2]);
 
   return (
-    <div className="h-full relative w-[100vw] overflow-hidden antialiased scrolls">
+    <div ref={myRef} className="h-full relative w-[100vw] overflow-hidden antialiased scrolls">
       <svg
         ref={ref2}
         onAnimationStart={() => {
@@ -1105,6 +1107,7 @@ export default function Home(props) {
       </svg>
       {ani.svg?<div
         onAnimationStart={() => {
+          props.setRef({ ...props.refs, re1: false });
           setAni((i) => {
             return { ...i, container: 1 };
           });
@@ -1122,6 +1125,13 @@ export default function Home(props) {
         className="z-20 h-full absolute w-[75vw] overflow-hidden bg-[#05112d] left-[12vw] flex flex-col pr-[0.8vmin] pl-[0.8vmin] pt-[5vh] gap-[4vh]"
       >
         <div
+          
+          onAnimationEnd={() => {
+            if (props.refs.re2)
+              setTimeout(() => {
+                props.refs.ref3.current.scrollIntoView();
+              }, 15000);
+          }}
           className=" alata w-full text-[4.2vmin] text-[#ffd3a2] text-center"
           style={ani.inner ? { animation: "fade 1s" } : { opacity: 0 }}
         >

@@ -1,18 +1,28 @@
 "use client";
 import { motion } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { PromiseProvider } from "mongoose";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useStopwatch } from "react-timer-hook";
 
-export default function Home() {
+export default function Home(props) {
    const { seconds, minutes, pause, start } = useStopwatch({ autoStart: true });
   const [s, setS] = useState(0);
+  const myRef = useRef(null);
   
   // console.log(geo);
   const { ref, inView } = useInView({
     threshold: 0,
   });
-  
+  useEffect(() => {
+  props.setRef({...props.refs,ref1:myRef})
+    
+  }, [])
+  useEffect(() => {
+    if (seconds === 12 && minutes === 0 && props.refs.re1) {
+      props.refs.ref2.current.scrollIntoView();
+    }
+  },[seconds])
   useMemo(() => {
     if (inView) {
       start();
@@ -29,6 +39,7 @@ export default function Home() {
       className="h-full relative w-[100vw] overflow-hidden antialiased scrolls"
     >
       <svg
+        
         style={
           (seconds > 2 && inView) || (minutes > 0 && inView)
             ? {
@@ -2322,6 +2333,7 @@ export default function Home() {
         )}
       </svg>
       <div
+        ref={myRef}
         style={
           seconds > 0 || minutes > 0
             ? { animation: "board 0.5s" }
@@ -2374,7 +2386,7 @@ export default function Home() {
               : { opacity: 0 }
           }
         >
-          RECEPTION - 22.02.2023 8 PM ONWARDS
+          RECEPTION - 22.02.2023 7 PM ONWARDS
         </h2>
       </div>
     </div>

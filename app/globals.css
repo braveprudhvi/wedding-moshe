@@ -37,6 +37,7 @@ body {
 }
 .snaps {
   scroll-behavior: smooth;
+  
   scroll-snap-type: y mandatory;
 }
 .scrolls {
@@ -48,6 +49,20 @@ body {
 }
 .fadein {
   animation: fade 1s 5.5s, delay 11s;
+}
+.rotate{
+  border: 1vmin solid #f6cc9b;
+  border-radius: 2vmin;
+  animation: rotating 3s infinite;
+  -webkit-animation: rotating 3s infinite;
+}
+@keyframes rotating {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(90deg);
+  }
 }
 .border {
   height: 0.1vh;

@@ -1,7 +1,7 @@
 "use client";
 import { useInView } from "react-intersection-observer";
 import { motion } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import logo from "../public/logos.png";
@@ -18,9 +18,12 @@ export default function Home(props) {
   const { ref, inView } = useInView({
     threshold: 0,
   });
-
+  const myRef = useRef(null);
+  useEffect(() => {
+    props.setRef({ ...props.refs, ref3: myRef });
+  }, []);
   return (
-    <div className="h-full relative w-[100vw] overflow-hidden antialiased scrolls">
+    <div ref={myRef} className="h-full relative w-[100vw] overflow-hidden antialiased scrolls">
       <svg
         onAnimationStart={() => {
           setAni((i) => {
@@ -1079,6 +1082,7 @@ export default function Home(props) {
       {ani.svg ? (
         <div
           onAnimationStart={() => {
+            props.setRef({ ...props.refs, re2: false });
             setAni((i) => {
               console.log("container");
               return { ...i, container: 1 };
