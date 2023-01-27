@@ -25,7 +25,7 @@ export default function Home() {
     get();
   }, [org]);
   return (
-    <div className="text-[#ffd3a2] relative w-full  overflow-auto snaps">
+    <div className="text-[#ffd3a2] text-[4vmin] relative w-full  overflow-auto snaps">
       <button onClick={bycount} className="h-[7vh] w-[20vw] ml-[20vw]">
         {" "}
         Sort by count
