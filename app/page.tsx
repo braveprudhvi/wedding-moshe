@@ -14,11 +14,10 @@ const PageThree = lazy(() => import("components/PageThree"));
 export default function Home() {
   let a = 1;
   const [refs, setRef] = useState({ re1: true, re2: true })
-  const [width,setWidth]=useState(0)
+  const [ratio,setRatio]=useState(1.65)
   const height = use100vh();
-  let ratio=1.65;
   useEffect(() => {
-    ratio = height / window.outerWidth;
+    setRatio(height / window.outerWidth);
   },[height]);
 
   const h = height ? `${height}px` : "100vh";

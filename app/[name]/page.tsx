@@ -13,7 +13,8 @@ const PageThree = lazy(() => import("components/PageThree"));
 // import from='"./page.ubsets: ['latin'] })
 
 export default function Home() {
- const [refs, setRef] = useState({ re1: true, re2: true });
+  const [refs, setRef] = useState({ re1: true, re2: true });
+  const [ratio, setRatio] = useState(1.65);
   const pathName = usePathname()?.slice(1).toUpperCase();
   let propsPath: String | undefined;
   let arch = false;
@@ -28,9 +29,9 @@ export default function Home() {
     propsPath = pathName?.split('-').join(" ");
   }
   const height = use100vh();
-  let ratio = 1.65;
+
     useEffect(() => {
-      ratio = height / window.outerWidth;
+     setRatio(height / window.outerWidth);
     }, [height]);
   const h = height ? `${height}px` : "100vh";
   return height ? (
