@@ -1130,7 +1130,7 @@ export default function Home(props) {
             if (props.refs.re2)
               setTimeout(() => {
                 props.refs.ref3.current.scrollIntoView();
-              }, 15000);
+              }, 11000);
           }}
           className=" alata w-full text-[4.2vmin] text-[#ffd3a2] text-center"
           style={ani.inner ? { animation: "fade 1s" } : { opacity: 0 }}
