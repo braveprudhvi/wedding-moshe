@@ -17,9 +17,19 @@ export default function Home() {
   const [ratio,setRatio]=useState(1.65)
   const height = use100vh();
   useEffect(() => {
-    setRatio(height / window.outerWidth);
+    setRatio(() => {
+      let rat = height /
+        (window.outerWidth > window.innerWidth
+          ? window.innerWidth
+          : window.outerWidth);
+      if (rat !== 0)
+        return rat;
+      else
+        return 1.65
+    }
+    );
   },[height]);
-
+  console.log(ratio);
   const h = height ? `${height}px` : "100vh";
   return height ? (
     ratio > 1.64 ? (

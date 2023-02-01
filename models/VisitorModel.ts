@@ -6,6 +6,7 @@ const VisitorSchema = new Schema({
   name: { type: String, required: true },
   city: { type: String, required: true },
   count: { type: Number, required: true },
+  time:{type: String, required:true}
 });
 
 export default mongoose.models.VisitorModel ||

@@ -30,10 +30,13 @@ export default function Home() {
         {" "}
         Sort by count
       </button>
-      <button onClick={(e) => {
-        e.preventDefault();
-        setOrg(org + 1);
-      }} className="h-[7vh] w-[20vw] ml-[20vw]">
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          setOrg(org + 1);
+        }}
+        className="h-[7vh] w-[20vw] ml-[20vw]"
+      >
         {" "}
         Sort by latest
       </button>
@@ -41,9 +44,10 @@ export default function Home() {
         <thead>
           <tr>
             <th>Name</th>
-            <th>City</th>
-            <th>IP</th>
+            <th>Time</th>
             <th>Count</th>
+            <th>IP</th>
+            <th>City</th>
           </tr>
         </thead>
         <tbody>
@@ -51,9 +55,10 @@ export default function Home() {
             return (
               <tr key={j}>
                 <td>{i.name}</td>
-                <td>{i.city}</td>
-                <td>{i.ip}</td>
+                <td>{i.time}</td>
                 <td>{i.count}</td>
+                <td>{i.ip}</td>
+                <td>{i.city}</td>
               </tr>
             );
           })}

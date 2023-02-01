@@ -31,7 +31,15 @@ export default function Home() {
   const height = use100vh();
 
     useEffect(() => {
-     setRatio(height / window.outerWidth);
+      setRatio(() => {
+        let rat =
+          height /
+          (window.outerWidth > window.innerWidth
+            ? window.innerWidth
+            : window.outerWidth);
+        if (rat !== 0) return rat;
+        else return 1.65;
+      });
     }, [height]);
   const h = height ? `${height}px` : "100vh";
   return height ? (

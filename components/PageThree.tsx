@@ -23,7 +23,10 @@ export default function Home(props) {
     props.setRef({ ...props.refs, ref3: myRef });
   }, []);
   return (
-    <div ref={myRef} className="h-full relative w-[100vw] overflow-hidden antialiased scrolls">
+    <div
+      ref={myRef}
+      className="h-full relative w-[100vw] overflow-hidden antialiased scrolls"
+    >
       <svg
         onAnimationStart={() => {
           setAni((i) => {
@@ -1149,13 +1152,13 @@ export default function Home(props) {
                 style={ani.inner ? { animation: "flip 0.6s" } : { opacity: 0 }}
                 onClick={() =>
                   window.open(
-                    "https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=NjhkMjhoZmRmNXB2aDE0cGsydm5qdTIyMTggYm9qYW5hcHVzYWlwcmFzYW50aDk4MUBt&tmsrc=bojanapusaiprasanth981%40gmail.com",
+                    "https://www.google.com/calendar/render?action=TEMPLATE&text=Prasanth+Weds+Archana&details=We+are+Inviting+you+to+Celebrate+their+Wedding+with+Joy+and+Happiness.&location=AVADHOOTHA+DATTA+PEETHAM%2C+M9Q4%2BP4J%2C+Ghogarbha+Teertham+Rd%2C+Tirumala%2C+Tirupati%2C+Andhra+Pradesh+517504%2C+India&dates=20230222T133000Z%2F20230223T003000Z",
                     "_self"
                   )
                 }
                 onTouchCancel={() =>
                   window.open(
-                    "https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=NjhkMjhoZmRmNXB2aDE0cGsydm5qdTIyMTggYm9qYW5hcHVzYWlwcmFzYW50aDk4MUBt&tmsrc=bojanapusaiprasanth981%40gmail.com",
+                    "https://www.google.com/calendar/render?action=TEMPLATE&text=Prasanth+Weds+Archana&details=We+are+Inviting+you+to+Celebrate+their+Wedding+with+Joy+and+Happiness.&location=AVADHOOTHA+DATTA+PEETHAM%2C+M9Q4%2BP4J%2C+Ghogarbha+Teertham+Rd%2C+Tirumala%2C+Tirupati%2C+Andhra+Pradesh+517504%2C+India&dates=20230222T133000Z%2F20230223T003000Z",
                     "_self"
                   )
                 }

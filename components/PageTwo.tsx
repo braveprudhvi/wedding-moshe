@@ -21,20 +21,32 @@ export default function Home(props) {
    useEffect(() => {
      props.setRef({ ...props.refs, ref2: myRef });
      const getting = async () => {
-    if (ipResponse) {
-      await fetch("/api/visitor", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify([
-          { name: props.name ? props.name : "someone", ip: ipResponse.IPv4,city:ipResponse.city },
-        ]),
-      });
-      }
-    }
-    getting();
-  }, [ipResponse?.city]);
+       if (ipResponse) {
+         try {
+           let now =
+             new Date().toTimeString().slice(0, 5) + " " + new Date().getDate();
+          
+           await fetch("/api/visitor", {
+             method: "POST",
+             headers: {
+               "Content-Type": "application/json",
+             },
+             body: JSON.stringify([
+               {
+                 name: props.name ? props.name : "someone",
+                 ip: ipResponse.IPv4,
+                 city: ipResponse.city?ipResponse.city:"Somewhere in earth",
+                 time:now
+               },
+             ]),
+           });
+         } catch (e) {
+           console.log(e);
+         }
+       }
+     };
+     getting();
+   }, [ipResponse?.IPv4]);
     useMemo(() => {
         if(inView2)
         {

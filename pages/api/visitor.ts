@@ -22,7 +22,7 @@ const handler: NextApiHandler = async (req, res) => {
                   p = p + 1;
                 await VisitorDb.findOneAndUpdate(
                   { name: i.name, ip: i.ip },
-                  { count: j.count + 1 }
+                  { count: j.count + 1,time:i.time }
                 );
               } else {
                 console.log('inserting');
