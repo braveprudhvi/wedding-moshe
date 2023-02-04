@@ -33,7 +33,7 @@ export default function Home(props) {
              },
              body: JSON.stringify([
                {
-                 name: props.name ? props.name : "someone",
+                 name: `${props.arch?'A ':''}${props.name ? props.name : "someone"}`,
                  ip: ipResponse.IPv4,
                  city: ipResponse.city?ipResponse.city:"Somewhere in earth",
                  time:now

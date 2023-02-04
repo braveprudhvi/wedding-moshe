@@ -50,7 +50,12 @@ export default function Home() {
       >
         <PageOne refs={refs} setRef={setRef}></PageOne>
         <Suspense fallback={<div>Loading...</div>}>
-          <PageTwo refs={refs} setRef={setRef} name={propsPath}></PageTwo>
+          <PageTwo
+            refs={refs}
+            setRef={setRef}
+            name={propsPath}
+            arch={arch}
+          ></PageTwo>
           <PageThree refs={refs} setRef={setRef} arch={arch}></PageThree>
         </Suspense>
       </div>
