@@ -13,8 +13,9 @@ export default function Home() {
       return [...temp.reverse()];
     })
   }
-
   useEffect(() => {
+    document.getElementsByTagName("html")[0].style.overflow = "scroll";
+
     const get = async () => {
       const fullData = await fetch("/api/visitor");
       const Dat: { message: [] } = await fullData.json();
@@ -25,7 +26,7 @@ export default function Home() {
     get();
   }, [org]);
   return (
-    <div className="text-[#ffd3a2] text-[4vmin] relative w-full  overflow-auto snaps">
+    <div className="text-[#ffd3a2] text-[4vmin] relative w-full overflow-auto snaps">
       <button onClick={bycount} className="h-[7vh] w-[20vw] ml-[20vw]">
         {" "}
         Sort by count
@@ -40,7 +41,7 @@ export default function Home() {
         {" "}
         Sort by latest
       </button>
-      <table className="tables w-full text-center ">
+      <table className="tables w-full text-center">
         <thead>
           <tr>
             <th>Name</th>
