@@ -10,6 +10,7 @@ import { useMemo } from "react";
 const PageTwo = lazy(() => import("components/PageTwo"));
 const PageThree = lazy(() => import("components/PageThree"));
 // import from='"./page.ubsets: ['latin'] })
+import Iframe from 'react-iframe';
 
 export default function Home() {
   let a = 1;
@@ -29,8 +30,8 @@ export default function Home() {
     }
     );
   },[height]);
-  console.log(ratio);
   const h = height ? `${height}px` : "100vh";
+  console.log(ratio,Math.round(height/1.66),h);
   return height ? (
     ratio > 1.64 ? (
       <div
@@ -44,22 +45,14 @@ export default function Home() {
         </Suspense>
       </div>
     ) : (
-      <div
-        style={{ height: h }}
-        className=" text-[#ffd3a2] text-[4vmin] flex flex-col align-middle justify-center"
-      >
-        <div className="rotate w-[40vmin] h-[20vmin] mt-[20vh] self-center"></div>
-        <h1 className="text-[#fa9725] flex flex-col h-[30vh] text-center pl-[5vmin] pr-[5vmin] mt-[10vh]">
-          This website is only built for Potrait,
-          <span className="mt-[2vh] text-[#ffd3a2]">
-            Kindly Rotate the screen to potrait{" "}
-          </span>
-          or
-          <span className="text-[#ffd3a2]">Open it in a mobile</span>
-          or
-          <span className="text-[#ffd3a2]">reduce the width.</span>
-        </h1>
-      </div>
+      <div className=" flex justify-center items-center">
+
+     <Iframe
+     url="https://www.prasanth-archana.in/"
+     width={Math.round(height/1.66)}
+     height={h}
+     className="iframe"/>
+     </div>
     )
   ) : (
     <></>

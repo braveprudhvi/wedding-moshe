@@ -44,7 +44,10 @@ body {
 .scrolls {
   scroll-snap-align: start;
 }
+.iframe{
+  box-shadow: 0px 0px 4vmin 4vmin rgba(0, 0, 0, 0.802);
 
+}
 .shadow {
   box-shadow: 0px 0px 2vmin 2vmin rgba(0, 0, 0, 0.802);
 }
