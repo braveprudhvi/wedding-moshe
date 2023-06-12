@@ -7,7 +7,7 @@ import Image from "next/image";
 import logo from "../public/logos.png";
 import { useTimer } from "react-timer-hook";
 export default function Home(props) {
-  const mDate = new Date(2023, 1, 23, 3, 38);
+  const mDate = new Date(2024, 1, 23, 0, 0);
   const diff = useTimer({
     expiryTimestamp: mDate,
     onExpire: () => console.warn("onExpire called"),
