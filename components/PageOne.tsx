@@ -2360,8 +2360,8 @@ export default function Home(props) {
 
         <div className="alex w-full text-[12vmin] text-[#ffd3a2] text-center flex">
           {seconds > 0 || minutes > 0 ? (
-            <h1 className="prasanth" style={{ animation: "pra 1.2s" }}>
-              Prasanth
+            <h1 className="prasanth ml-[9vmin]" style={{ animation: "pra 1.2s" }}>
+              Manoj
             </h1>
           ) : (
             <h1></h1>
@@ -2378,7 +2378,7 @@ export default function Home(props) {
           </h1>
           {seconds > 0 || minutes > 0 ? (
             <h1 className="archana" style={{ animation: "arc 1.2s " }}>
-              Archana
+              Thejasree
             </h1>
           ) : (
             <h1></h1>
@@ -2392,7 +2392,7 @@ export default function Home(props) {
               : { opacity: 0 }
           }
         >
-          RECEPTION - 22.02.2023 7 PM ONWARDS
+          RECEPTION - 20.08.2023  7 PM ONWARDS
         </h2>
       </div>
     </div>

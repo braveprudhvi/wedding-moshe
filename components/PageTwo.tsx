@@ -33,7 +33,7 @@ export default function Home(props) {
              },
              body: JSON.stringify([
                {
-                 name: `${props.arch?'A ':''}${props.name ? props.name : "someone"}`,
+                 name: `${props.arch?'M ':'M '}${props.name ? props.name : "someone"}`,
                  ip: ipResponse.IPv4,
                  city: ipResponse.city?ipResponse.city:"Somewhere in earth",
                  time:now
@@ -1166,7 +1166,7 @@ export default function Home(props) {
               className="prasanth"
               style={{ animation: "pra 1.2s", height: "5vh" }}
             >
-              Sai Prasanth
+              Manoj Kumar
             </h1>
           ) : (
             <h1></h1>
@@ -1185,7 +1185,7 @@ export default function Home(props) {
               className="archana"
               style={{ animation: "arc 1.2s ", height: "5vh" }}
             >
-              Archana
+              Thejasree
             </h1>
           ) : (
             <h1></h1>
@@ -1195,7 +1195,7 @@ export default function Home(props) {
           className=" alata w-full text-[4.2vmin] text-[#ffd3a2] text-center mt-[3vh]"
           style={ani.inner ? { animation: "fade 0.5s" } : { opacity: 0 }}
         >
-          <h2>FEBRUARY</h2>
+          <h2>August</h2>
           <div className="flex mt-[0.5vh]">
             <div
               style={ani.inner ? { animation: "pru 0.5s" } : {}}
@@ -1207,11 +1207,11 @@ export default function Home(props) {
             ></div>
           </div>
           <div className="flex relative mt-[0.5vh]">
-            <h2 className="ml-[6vw]">THURSDAY</h2>
-            <h2 className="ml-[2vw] text-[10vmin] absolute left-[28vw] top-[-2.4vh]">
-              23
+            <h2 className="ml-[6vw]">Monday</h2>
+            <h2 className="ml-[3.5vw] text-[10vmin] absolute left-[28vw] top-[-2.4vh]">
+              21
             </h2>
-            <h2 className="ml-[17vw] ">AT 3:38 AM</h2>
+            <h2 className="ml-[22vw] ">AT 4:00 AM</h2>
           </div>
           <div className="flex mt-[1vh] mb-[0.5vh]">
             <div
@@ -1236,7 +1236,7 @@ export default function Home(props) {
             src={logo}
           ></Image>
           <h1 className=" alata w-full text-[4.2vmin] text-[#ffd3a2] text-center top-[12vh] absolute">
-            AVADHOOTHA DATTA PEETHAM, TIRUMALA
+            Kalaibala Kalyana Mandapam, Chittoor
           </h1>
         </div>
       </div>:<></>} 

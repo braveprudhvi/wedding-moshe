@@ -7,7 +7,7 @@ import Image from "next/image";
 import logo from "../public/logos.png";
 import { useTimer } from "react-timer-hook";
 export default function Home(props) {
-  const mDate = new Date(2023, 1, 23, 0, 0);
+  const mDate = new Date(2023, 7, 21, 4, 0);
   const diff = useTimer({
     expiryTimestamp: mDate,
     onExpire: () => console.warn("onExpire called"),
@@ -1152,13 +1152,13 @@ export default function Home(props) {
                 style={ani.inner ? { animation: "flip 0.6s" } : { opacity: 0 }}
                 onClick={() =>
                   window.open(
-                    "https://www.google.com/calendar/render?action=TEMPLATE&text=Prasanth+Weds+Archana&details=We+are+Inviting+you+to+Celebrate+their+Wedding+with+Joy+and+Happiness.&location=AVADHOOTHA+DATTA+PEETHAM%2C+M9Q4%2BP4J%2C+Ghogarbha+Teertham+Rd%2C+Tirumala%2C+Tirupati%2C+Andhra+Pradesh+517504%2C+India&dates=20230222T133000Z%2F20230223T003000Z",
+                    "https://www.google.com/calendar/render?action=TEMPLATE&text=Manoj%20weds%20Thejasree&dates=20230820T223000Z/20230821T003000Z&details=Manoj%20weds%20Thejasree%0D%0ADate%20and%20Time%3A%20Aug%2020%2C%202023%2010%3A30%20PM%20-%20Aug%2021%2C%202023%2012%3A30%20AM%0D%0AVenue%3A%20Chittoor%0D%0AMarriage&location=Chittoor&trp=true&sf=true&output=xml#f",
                     "_self"
                   )
                 }
                 onTouchCancel={() =>
                   window.open(
-                    "https://www.google.com/calendar/render?action=TEMPLATE&text=Prasanth+Weds+Archana&details=We+are+Inviting+you+to+Celebrate+their+Wedding+with+Joy+and+Happiness.&location=AVADHOOTHA+DATTA+PEETHAM%2C+M9Q4%2BP4J%2C+Ghogarbha+Teertham+Rd%2C+Tirumala%2C+Tirupati%2C+Andhra+Pradesh+517504%2C+India&dates=20230222T133000Z%2F20230223T003000Z",
+                    "https://www.google.com/calendar/render?action=TEMPLATE&text=Manoj%20weds%20Thejasree&dates=20230820T223000Z/20230821T003000Z&details=Manoj%20weds%20Thejasree%0D%0ADate%20and%20Time%3A%20Aug%2020%2C%202023%2010%3A30%20PM%20-%20Aug%2021%2C%202023%2012%3A30%20AM%0D%0AVenue%3A%20Chittoor%0D%0AMarriage&location=Chittoor&trp=true&sf=true&output=xml#f",
                     "_self"
                   )
                 }
@@ -1212,13 +1212,13 @@ export default function Home(props) {
                 style={ani.inner ? { animation: "flipz 0.6s" } : { opacity: 0 }}
                 onClick={() =>
                   window.open(
-                    "data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ADTSTART:20230222T150000Z%0ADTEND:20230223T030000Z%0ASUMMARY:Prasanth%20Weds%20Archana%0ADESCRIPTION:We%20are%20Inviting%20you%20to%20Celebrate%20their%20Wedding%20with%20Joy%20and%20Happiness.%0ALOCATION:AVADHOOTHA%20DATTA%20PEETHAM%2C%20M9Q4%2BP4J%2C%20Ghogarbha%20Teertham%20Rd%2C%20Tirumala%2C%20Tirupati%2C%20Andhra%20Pradesh%20517504%2C%20India%0AEND:VEVENT%0AEND:VCALENDAR%0A",
+                    "http://icalgen.yc.sg/?sub=Manoj+weds+Thejasree&det=Marriage&tz=Asia%2FCalcutta&allday=false&sd=Aug+21%2C+2023&st=4%3A00+AM&ed=Aug+21%2C+2023&et=6%3A00+AM&venue=Chittoor&isub=true&idt=true&iv=true&dl=1",
                     "_self"
                   )
                 }
                 onTouchCancel={() =>
                   window.open(
-                    "data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ADTSTART:20230222T150000Z%0ADTEND:20230223T030000Z%0ASUMMARY:Prasanth%20Weds%20Archana%0ADESCRIPTION:We%20are%20Inviting%20you%20to%20Celebrate%20their%20Wedding%20with%20Joy%20and%20Happiness.%0ALOCATION:AVADHOOTHA%20DATTA%20PEETHAM%2C%20M9Q4%2BP4J%2C%20Ghogarbha%20Teertham%20Rd%2C%20Tirumala%2C%20Tirupati%2C%20Andhra%20Pradesh%20517504%2C%20India%0AEND:VEVENT%0AEND:VCALENDAR%0A"
+                    "http://icalgen.yc.sg/?sub=Manoj+weds+Thejasree&det=Marriage&tz=Asia%2FCalcutta&allday=false&sd=Aug+21%2C+2023&st=4%3A00+AM&ed=Aug+21%2C+2023&et=6%3A00+AM&venue=Chittoor&isub=true&idt=true&iv=true&dl=1"
                   )
                 }
                 className="flex flex-col justify-center align-middle"
@@ -1262,13 +1262,13 @@ export default function Home(props) {
                 style={ani.inner ? { animation: "flip 0.6s" } : { opacity: 0 }}
                 onClick={() =>
                   window.open(
-                    "https://maps.app.goo.gl/hsFtrSHz3WBXd1Ne9",
+                    "https://maps.app.goo.gl/EgpaYFVHShQKYwXH6?g_st=iw",
                     "_self"
                   )
                 }
                 onTouchCancel={() =>
                   window.open(
-                    "https://maps.app.goo.gl/hsFtrSHz3WBXd1Ne9",
+                    "https://maps.app.goo.gl/EgpaYFVHShQKYwXH6?g_st=iw",
                     "_self"
                   )
                 }
@@ -1315,13 +1315,13 @@ export default function Home(props) {
                 style={ani.inner ? { animation: "flipz 0.6s" } : { opacity: 0 }}
                 onClick={() =>
                   window.open(
-                    "https://maps.apple.com/?address=Tirupati%20Urban,%20Tirupati,%20517504,%20Andhra%20Pradesh,%20India&auid=4090662749753956787&ll=13.689346,79.355497&lsp=9902&q=Avadhoota%20Datta%20Peetham&t=m",
+                    "https://maps.apple.com/?address=Murakambattu,%20Andhra%20Pradesh,%20India&auid=15922817984360022433&ll=13.247182,79.118233&lsp=6489&q=Murakambattu&t=m",
                     "_self"
                   )
                 }
                 onTouchCancel={() =>
                   window.open(
-                    "https://maps.apple.com/?address=Tirupati%20Urban,%20Tirupati,%20517504,%20Andhra%20Pradesh,%20India&auid=4090662749753956787&ll=13.689346,79.355497&lsp=9902&q=Avadhoota%20Datta%20Peetham&t=m",
+                    "https://maps.apple.com/?address=Murakambattu,%20Andhra%20Pradesh,%20India&auid=15922817984360022433&ll=13.247182,79.118233&lsp=6489&q=Murakambattu&t=m",
                     "_self"
                   )
                 }
@@ -1363,19 +1363,19 @@ export default function Home(props) {
                   }
                   onClick={() =>
                     window.open(
-                      `tel:+91${props.arch ? "9535802983" : "9849199983"}`,
+                      `tel:+91${props.arch ? "7036269141" : "7036269141"}`,
                       "_self"
                     )
                   }
                   onTouchCancel={() =>
                     window.open(
-                      `tel:+91${props.arch ? "9535802983" : "9849199983"}`,
+                      `tel:+91${props.arch ? "7036269141" : "7036269141"}`,
                       "_self"
                     )
                   }
                   className="text-[3.8vmin] mt-[0.7vh]"
                 >
-                  {props.arch ? "9535802983" : "9849199983"}
+                  {props.arch ? "7036269141" : "7036269141"}
                 </h1>
                 <svg
                   style={
@@ -1384,14 +1384,14 @@ export default function Home(props) {
                   onClick={() =>
                     window.open(
                       `https://wa.me/91${
-                        props.arch ? "9535802983" : "9849199983"
+                        props.arch ? "7036269141" : "7036269141"
                       }?text=HI,%20I%20have%20A%20doubt%20regarding`,
                       "_self"
                     )
                   }
                   onTouchCancel={() =>
                     window.open(
-                      "https://wa.me/919849199983?text=HI,%20I%20have%20A%20doubt%20regarding",
+                      "https://wa.me/917036269141?text=HI,%20I%20have%20A%20doubt%20regarding",
                       "_self"
                     )
                   }
@@ -1452,7 +1452,7 @@ export default function Home(props) {
           }}
           className="text-[#ffd3a2]"
         >
-          Prudhvi {props.arch ? "" : "( Sunny )"}
+          Prudhvi
         </h2>
       </div>
     </div>
