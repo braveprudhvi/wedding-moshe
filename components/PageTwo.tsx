@@ -1152,7 +1152,7 @@ export default function Home(props) {
           ) : (
             <></>
           )}
-          <h2>INVITING YOU TO CELEBRATE THEIR WEDDING</h2>
+          <h2>INVITING YOU TO CELEBRATE THE WEDDING OF</h2>
         </div>
 
         <div className="alex w-full text-[13vmin] text-[#ffd3a2] text-center flex flex-col gap-[2.5vh]">
